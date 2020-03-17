@@ -70,7 +70,8 @@ fhandler_fifo::fhandler_fifo ():
   cancel_evt (NULL), sync_thr (NULL), listening_evt (NULL),
   nhandlers (0), nconnected (0),
   reader (false), writer (false), duplexer (false),
-  max_atomic_write (DEFAULT_PIPEBUFSIZE)
+  max_atomic_write (DEFAULT_PIPEBUFSIZE),
+  shmem_handle (NULL), shmem (NULL)
 {
   pipe_name_buf[0] = L'\0';
   need_fork_fixup (true);
@@ -417,6 +418,67 @@ canceled:
 }
 
 int
+fhandler_fifo::create_shmem ()
+{
+  HANDLE sect;
+  OBJECT_ATTRIBUTES attr;
+  NTSTATUS status;
+  LARGE_INTEGER size = { .QuadPart = sizeof (fifo_shmem_t) };
+  SIZE_T viewsize = sizeof (fifo_shmem_t);
+  PVOID addr = NULL;
+  UNICODE_STRING uname;
+  WCHAR shmem_name[MAX_PATH];
+
+  __small_swprintf (shmem_name, L"fifo-shmem.%08x.%016X", get_dev (),
+		    get_ino ());
+  RtlInitUnicodeString (&uname, shmem_name);
+  InitializeObjectAttributes (&attr, &uname, OBJ_INHERIT,
+			      get_shared_parent_dir (), NULL);
+  status = NtCreateSection (&sect, STANDARD_RIGHTS_REQUIRED | SECTION_QUERY
+			    | SECTION_MAP_READ | SECTION_MAP_WRITE,
+			    &attr, &size, PAGE_READWRITE, SEC_COMMIT, NULL);
+  if (status == STATUS_OBJECT_NAME_COLLISION)
+    status = NtOpenSection (&sect, STANDARD_RIGHTS_REQUIRED | SECTION_QUERY
+			    | SECTION_MAP_READ | SECTION_MAP_WRITE, &attr);
+  if (!NT_SUCCESS (status))
+    {
+      __seterrno_from_nt_status (status);
+      return -1;
+    }
+  status = NtMapViewOfSection (sect, NtCurrentProcess (), &addr, 0, viewsize,
+			       NULL, &viewsize, ViewShare, 0, PAGE_READWRITE);
+  if (!NT_SUCCESS (status))
+    {
+      NtClose (sect);
+      __seterrno_from_nt_status (status);
+      return -1;
+    }
+  shmem_handle = sect;
+  shmem = (fifo_shmem_t *) addr;
+  return 0;
+}
+
+/* shmem_handle must be valid when this is called. */
+int
+fhandler_fifo::reopen_shmem ()
+{
+  NTSTATUS status;
+  SIZE_T viewsize = sizeof (fifo_shmem_t);
+  PVOID addr = NULL;
+
+  status = NtMapViewOfSection (shmem_handle, NtCurrentProcess (), &addr,
+			       0, viewsize, NULL, &viewsize, ViewShare,
+			       0, PAGE_READWRITE);
+  if (!NT_SUCCESS (status))
+    {
+      __seterrno_from_nt_status (status);
+      return -1;
+    }
+  shmem = (fifo_shmem_t *) addr;
+  return 0;
+}
+
+int
 fhandler_fifo::open (int flags, mode_t)
 {
   if (flags & O_PATH)
@@ -467,7 +529,8 @@ fhandler_fifo::open (int flags, mode_t)
       goto err_close_read_ready;
     }
 
-  /* If we're reading, signal read_ready and start the fifo_reader_thread. */
+  /* If we're reading, signal read_ready, create the shared memory,
+     and start the fifo_reader_thread. */
   if (reader)
     {
       if (!arm (read_ready))
@@ -475,8 +538,10 @@ fhandler_fifo::open (int flags, mode_t)
 	  __seterrno ();
 	  goto err_close_write_ready;
 	}
-      if (!(listening_evt = create_event ()))
+      if (create_shmem () < 0)
 	goto err_close_write_ready;
+      if (!(listening_evt = create_event ()))
+	goto err_close_shmem;
       if (!(cancel_evt = create_event ()))
 	goto err_close_listening_evt;
       if (!(sync_thr = create_event ()))
@@ -553,6 +618,9 @@ err_close_cancel_evt:
   NtClose (cancel_evt);
 err_close_listening_evt:
   NtClose (listening_evt);
+err_close_shmem:
+  NtUnmapViewOfSection (NtCurrentProcess (), shmem);
+  NtClose (shmem_handle);
 err_close_write_ready:
   NtClose (write_ready);
 err_close_read_ready:
@@ -901,6 +969,10 @@ fhandler_fifo::close ()
 	   dup/fork/exec; we should only reset read_ready when the last
 	   one closes. */
 	ResetEvent (read_ready);
+      if (shmem)
+	NtUnmapViewOfSection (NtCurrentProcess (), shmem);
+      if (shmem_handle)
+	NtClose (shmem_handle);
     }
   if (read_ready)
     NtClose (read_ready);
@@ -955,6 +1027,15 @@ fhandler_fifo::dup (fhandler_base *child, int flags)
     }
   if (reader)
     {
+      if (!DuplicateHandle (GetCurrentProcess (), shmem_handle,
+			    GetCurrentProcess (), &fhf->shmem_handle,
+			    0, !(flags & O_CLOEXEC), DUPLICATE_SAME_ACCESS))
+	{
+	  __seterrno ();
+	  goto err_close_write_ready;
+	}
+      if (fhf->reopen_shmem () < 0)
+	goto err_close_shmem_handle;
       fifo_client_lock ();
       for (i = 0; i < nhandlers; i++)
 	{
@@ -989,6 +1070,10 @@ err_close_listening_evt:
 err_close_handlers:
   for (int j = 0; j < i; j++)
     fhf->fc_handler[j].close ();
+  NtUnmapViewOfSection (GetCurrentProcess (), fhf->shmem);
+err_close_shmem_handle:
+  NtClose (fhf->shmem_handle);
+err_close_write_ready:
   NtClose (fhf->write_ready);
 err_close_read_ready:
   NtClose (fhf->read_ready);
@@ -1004,6 +1089,10 @@ fhandler_fifo::fixup_after_fork (HANDLE parent)
   fork_fixup (parent, write_ready, "write_ready");
   if (reader)
     {
+      fork_fixup (parent, shmem_handle, "shmem_handle");
+      /* The child needs its own view of shared memory. */
+      if (reopen_shmem () < 0)
+	api_fatal ("Can't reopen shared memory during fork, %E");
       fifo_client_lock ();
       for (int i = 0; i < nhandlers; i++)
 	fork_fixup (parent, fc_handler[i].h, "fc_handler[].h");
@@ -1024,8 +1113,11 @@ fhandler_fifo::fixup_after_exec ()
   fhandler_base::fixup_after_exec ();
   if (reader && !close_on_exec ())
     {
+      /* The child needs its own view of shared memory. */
+      if (reopen_shmem () < 0)
+	api_fatal ("Can't reopen shared memory during exec, %E");
       if (!(listening_evt = create_event ()))
-	debug_printf ("Failed to create listening event during exec, %E");
+	api_fatal ("Can't create reader thread listening event during exec, %E");
       if (!(cancel_evt = create_event ()))
 	api_fatal ("Can't create reader thread cancel event during exec, %E");
       if (!(sync_thr = create_event ()))

@@ -1294,6 +1294,22 @@ struct fifo_client_handler
   int pipe_state ();
 };
 
+/* Info needed by all readers of a FIFO, stored in named shared memory. */
+class fifo_shmem_t
+{
+  LONG _nreaders;
+  af_unix_spinlock_t _nreaders_lock;
+
+ public:
+  LONG get_nreaders () const { return _nreaders; }
+  LONG inc_nreaders () { return InterlockedIncrement (&_nreaders); }
+  LONG dec_nreaders () { return InterlockedDecrement (&_nreaders); }
+  void nreaders_lock () { _nreaders_lock.lock (); }
+  void nreaders_unlock () { _nreaders_lock.unlock (); }
+
+  friend class fhandler_fifo;
+};
+
 class fhandler_fifo: public fhandler_base
 {
   HANDLE read_ready;
@@ -1309,6 +1325,10 @@ class fhandler_fifo: public fhandler_base
   af_unix_spinlock_t _fifo_client_lock;
   bool reader, writer, duplexer;
   size_t max_atomic_write;
+
+  HANDLE shmem_handle;
+  fifo_shmem_t *shmem;
+
   bool __reg2 wait (HANDLE);
   static NTSTATUS npfs_handle (HANDLE &);
   HANDLE create_pipe_instance (bool);
@@ -1317,6 +1337,9 @@ class fhandler_fifo: public fhandler_base
   void delete_client_handler (int);
   void cancel_reader_thread ();
   void record_connection (fifo_client_handler&);
+
+  int create_shmem ();
+  int reopen_shmem ();
 
 public:
   fhandler_fifo ();
@@ -1329,6 +1352,13 @@ public:
   DWORD thread_func ();
   void fifo_client_lock () { _fifo_client_lock.lock (); }
   void fifo_client_unlock () { _fifo_client_lock.unlock (); }
+
+  void nreaders_lock () { shmem->nreaders_lock (); }
+  void nreaders_unlock () { shmem->nreaders_unlock (); }
+  LONG get_nreaders () const { return shmem->get_nreaders (); }
+  LONG inc_nreaders () { return shmem->inc_nreaders (); }
+  LONG dec_nreaders () { return shmem->dec_nreaders (); }
+
   int open (int, mode_t);
   off_t lseek (off_t offset, int whence);
   int close ();
