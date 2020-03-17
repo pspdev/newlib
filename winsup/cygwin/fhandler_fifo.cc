@@ -67,8 +67,9 @@ STATUS_PIPE_EMPTY simply means there's no data to be read. */
 
 fhandler_fifo::fhandler_fifo ():
   fhandler_base (), read_ready (NULL), write_ready (NULL),
-  listen_client_thr (NULL), lct_termination_evt (NULL), nhandlers (0),
-  nconnected (0), reader (false), writer (false), duplexer (false),
+  listen_client_thr (NULL), lct_termination_evt (NULL), listening_evt (NULL),
+  nhandlers (0), nconnected (0),
+  reader (false), writer (false), duplexer (false),
   max_atomic_write (DEFAULT_PIPEBUFSIZE)
 {
   pipe_name_buf[0] = L'\0';
@@ -349,15 +350,9 @@ fhandler_fifo::listen_client_thread ()
       if (add_client_handler () < 0)
 	goto out;
 
-      /* Allow a writer to open. */
-      if (!arm (read_ready))
-	{
-	  __seterrno ();
-	  goto out;
-	}
-
       /* Listen for a writer to connect to the new client handler. */
       fifo_client_handler& fc = fc_handler[nhandlers - 1];
+      SetEvent (listening_evt);
       NTSTATUS status;
       IO_STATUS_BLOCK io;
 
@@ -429,6 +424,7 @@ fhandler_fifo::listen_client_thread ()
 	  goto out;
 	}
       fifo_client_unlock ();
+      ResetEvent (listening_evt);
       /* Check for thread termination in case WaitForMultipleObjects
 	 didn't get called above. */
       if (IsEventSignalled (lct_termination_evt))
@@ -440,7 +436,6 @@ fhandler_fifo::listen_client_thread ()
 out:
   if (evt)
     NtClose (evt);
-  ResetEvent (read_ready);
   if (ret < 0)
     debug_printf ("exiting with error, %E");
   else
@@ -451,13 +446,6 @@ out:
 int
 fhandler_fifo::open (int flags, mode_t)
 {
-  enum
-  {
-   success,
-   error_errno_set,
-   error_set_errno
-  } res;
-
   if (flags & O_PATH)
     return open_fs (flags);
 
@@ -476,8 +464,7 @@ fhandler_fifo::open (int flags, mode_t)
       break;
     default:
       set_errno (EINVAL);
-      res = error_errno_set;
-      goto out;
+      goto err;
     }
 
   debug_only_printf ("reader %d, writer %d, duplexer %d", reader, writer, duplexer);
@@ -493,65 +480,60 @@ fhandler_fifo::open (int flags, mode_t)
 
   char npbuf[MAX_PATH];
   __small_sprintf (npbuf, "r-event.%08x.%016X", get_dev (), get_ino ());
-  if (!(read_ready = CreateEvent (sa_buf, false, false, npbuf)))
+  if (!(read_ready = CreateEvent (sa_buf, true, false, npbuf)))
     {
       debug_printf ("CreateEvent for %s failed, %E", npbuf);
-      res = error_set_errno;
-      goto out;
+      __seterrno ();
+      goto err;
     }
   npbuf[0] = 'w';
   if (!(write_ready = CreateEvent (sa_buf, true, false, npbuf)))
     {
       debug_printf ("CreateEvent for %s failed, %E", npbuf);
-      res = error_set_errno;
-      goto out;
+      __seterrno ();
+      goto err_close_read_ready;
     }
 
-  /* If we're a duplexer, create the pipe and the first client handler. */
-  if (duplexer)
-    {
-      HANDLE ph = NULL;
-
-      if (add_client_handler () < 0)
-	{
-	  res = error_errno_set;
-	  goto out;
-	}
-      NTSTATUS status = open_pipe (ph);
-      if (NT_SUCCESS (status))
-	{
-	  record_connection (fc_handler[0]);
-	  set_handle (ph);
-	  set_pipe_non_blocking (ph, flags & O_NONBLOCK);
-	}
-      else
-	{
-	  __seterrno_from_nt_status (status);
-	  res = error_errno_set;
-	  goto out;
-	}
-    }
-
-  /* If we're reading, start the listen_client thread (which should
-     signal read_ready), and wait for a writer. */
+  /* If we're reading, signal read_ready and start the listen_client
+     thread. */
   if (reader)
     {
+      if (!arm (read_ready))
+	{
+	  __seterrno ();
+	  goto err_close_write_ready;
+	}
+      if (!(listening_evt = create_event ()))
+	goto err_close_write_ready;
       if (!listen_client ())
+	goto err_close_listening_evt;
+
+      /* If we're a duplexer, we need a handle for writing. */
+      if (duplexer)
 	{
-	  debug_printf ("create of listen_client thread failed");
-	  res = error_errno_set;
-	  goto out;
+	  HANDLE ph = NULL;
+
+	  /* Wait until the lct is listening. */
+	  WaitForSingleObject (listening_evt, INFINITE);
+	  NTSTATUS status = open_pipe (ph);
+	  if (NT_SUCCESS (status))
+	    {
+	      set_handle (ph);
+	      set_pipe_non_blocking (ph, flags & O_NONBLOCK);
+	    }
+	  else
+	    {
+	      __seterrno_from_nt_status (status);
+	      goto err_stop_lct;
+	    }
 	}
-      else if (!duplexer && !wait (write_ready))
-	{
-	  res = error_errno_set;
-	  goto out;
-	}
-      else
-	{
-	  init_fixup_before ();
-	  res = success;
-	}
+
+      /* Not a duplexer; wait for a writer to connect. */
+      else if (!wait (write_ready))
+	goto err_stop_lct;
+
+      init_fixup_before ();
+      goto success;
     }
 
   /* If we're writing, wait for read_ready and then connect to the
@@ -561,20 +543,22 @@ fhandler_fifo::open (int flags, mode_t)
     {
       while (1)
 	{
-	  if (!wait (read_ready))
-	    {
-	      res = error_errno_set;
-	      goto out;
-	    }
+	  if (wait (read_ready))
+	    WaitForSingleObject (listening_evt, INFINITE);
+	  else
+	    goto err_close_write_ready;
+
 	  NTSTATUS status = open_pipe (get_handle ());
 	  if (NT_SUCCESS (status))
 	    {
 	      set_pipe_non_blocking (get_handle (), flags & O_NONBLOCK);
 	      if (!arm (write_ready))
-		res = error_set_errno;
+		{
+		  __seterrno ();
+		  goto err_close_write_ready;
+		}
 	      else
-		res = success;
-	      goto out;
+		goto success;
 	    }
 	  else if (STATUS_PIPE_NO_INSTANCE_AVAILABLE (status))
 	    Sleep (1);
@@ -582,33 +566,24 @@ fhandler_fifo::open (int flags, mode_t)
 	    {
 	      debug_printf ("create of writer failed");
 	      __seterrno_from_nt_status (status);
-	      res = error_errno_set;
-	      goto out;
+	      goto err_close_write_ready;
 	    }
 	}
     }
-out:
-  if (res == error_set_errno)
-    __seterrno ();
-  if (res != success)
-    {
-      if (read_ready)
-	{
-	  NtClose (read_ready);
-	  read_ready = NULL;
-	}
-      if (write_ready)
-	{
-	  NtClose (write_ready);
-	  write_ready = NULL;
-	}
-      if (get_handle ())
-	NtClose (get_handle ());
-      if (listen_client_thr)
-	stop_listen_client ();
-    }
-  debug_printf ("res %d", res);
-  return res == success;
+success:
+  return 1;
+err_stop_lct:
+  stop_listen_client ();
+err_close_listening_evt:
+  NtClose (listening_evt);
+err_close_write_ready:
+  NtClose (write_ready);
+err_close_read_ready:
+  NtClose (read_ready);
+err:
+  if (get_handle ())
+    NtClose (get_handle ());
+  return 0;
 }
 
 off_t
@@ -986,6 +961,11 @@ fhandler_fifo::close ()
      handler or another thread. */
   fifo_client_unlock ();
   int ret = stop_listen_client ();
+  if (read_ready && reader)
+    /* FIXME: There could be several readers open because of
+       dup/fork/exec; we should only reset read_ready when the last
+       one closes. */
+    ResetEvent (read_ready);
   if (read_ready)
     NtClose (read_ready);
   if (write_ready)
@@ -1059,11 +1039,15 @@ fhandler_fifo::dup (fhandler_base *child, int flags)
   fifo_client_unlock ();
   if (reader)
     {
-      if (!fhf->listen_client ())
+      if (!(fhf->listening_evt = create_event ()))
 	goto err_close_handlers;
+      if (!fhf->listen_client ())
+	goto err_close_listening_evt;
       fhf->init_fixup_before ();
     }
   return 0;
+err_close_listening_evt:
+  NtClose (fhf->listening_evt);
 err_close_handlers:
   for (int j = 0; j < i; j++)
     fhf->fc_handler[j].close ();
@@ -1090,16 +1074,26 @@ fhandler_fifo::fixup_after_fork (HANDLE parent)
   for (int i = 0; i < nhandlers; i++)
   fork_fixup (parent, fc_handler[i].h, "fc_handler[].h");
   fifo_client_unlock ();
-  if (reader && !listen_client ())
-    debug_printf ("failed to start lct, %E");
+  if (reader)
+    {
+      if (!(listening_evt = create_event ()))
+	api_fatal ("Can't create listening event during fork, %E");
+      if (!listen_client ())
+	debug_printf ("failed to start lct, %E");
+    }
 }
 
 void
 fhandler_fifo::fixup_after_exec ()
 {
   fhandler_base::fixup_after_exec ();
-  if (reader && !listen_client ())
-    debug_printf ("failed to start lct, %E");
+  if (reader && !close_on_exec ())
+    {
+      if (!(listening_evt = create_event ()))
+	debug_printf ("Failed to create listening event during exec, %E");
+      if (!listen_client ())
+	debug_printf ("failed to start lct, %E");
+    }
 }
 
 void
