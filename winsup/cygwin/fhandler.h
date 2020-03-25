@@ -1294,6 +1294,26 @@ struct fifo_client_handler
   int pipe_state ();
 };
 
+class fhandler_fifo;
+
+struct fifo_reader_id_t
+{
+  DWORD winpid;
+  fhandler_fifo *fh;
+
+  operator bool () const { return winpid != 0 || fh != NULL; }
+
+  friend operator == (const fifo_reader_id_t &l, const fifo_reader_id_t &r)
+  {
+    return l.winpid == r.winpid && l.fh == r.fh;
+  }
+
+  friend operator != (const fifo_reader_id_t &l, const fifo_reader_id_t &r)
+  {
+    return l.winpid != r.winpid || l.fh != r.fh;
+  }
+};
+
 /* Info needed by all readers of a FIFO, stored in named shared memory. */
 class fifo_shmem_t
 {
@@ -1328,6 +1348,7 @@ class fhandler_fifo: public fhandler_base
 
   HANDLE shmem_handle;
   fifo_shmem_t *shmem;
+  fifo_reader_id_t me;
 
   bool __reg2 wait (HANDLE);
   static NTSTATUS npfs_handle (HANDLE &);
@@ -1358,6 +1379,7 @@ public:
   LONG get_nreaders () const { return shmem->get_nreaders (); }
   LONG inc_nreaders () { return shmem->inc_nreaders (); }
   LONG dec_nreaders () { return shmem->dec_nreaders (); }
+  fifo_reader_id_t get_me () const { return me; }
 
   int open (int, mode_t);
   off_t lseek (off_t offset, int whence);
