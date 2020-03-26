@@ -32,11 +32,11 @@
      When a FIFO is opened for reading,
      fhandler_fifo::create_pipe_instance is called to create the first
      instance of a Windows named pipe server (Windows terminology).  A
-     "listen_client" thread is also started; it waits for pipe clients
+     "fifo_reader" thread is also started; it waits for pipe clients
      (Windows terminology again) to connect.  This happens every time
      a process opens the FIFO for writing.
 
-     The listen_client thread creates new instances of the pipe server
+     The fifo_reader thread creates new instances of the pipe server
      as needed, so that there is always an instance available for a
      writer to connect to.
 
@@ -67,7 +67,7 @@ STATUS_PIPE_EMPTY simply means there's no data to be read. */
 
 fhandler_fifo::fhandler_fifo ():
   fhandler_base (), read_ready (NULL), write_ready (NULL),
-  listen_client_thr (NULL), lct_termination_evt (NULL), listening_evt (NULL),
+  cancel_evt (NULL), sync_thr (NULL), listening_evt (NULL),
   nhandlers (0), nconnected (0),
   reader (false), writer (false), duplexer (false),
   max_atomic_write (DEFAULT_PIPEBUFSIZE)
@@ -283,34 +283,6 @@ fhandler_fifo::delete_client_handler (int i)
 	     (nhandlers - i) * sizeof (fc_handler[i]));
 }
 
-/* Just hop to the listen_client_thread method. */
-DWORD WINAPI
-listen_client_func (LPVOID param)
-{
-  fhandler_fifo *fh = (fhandler_fifo *) param;
-  return fh->listen_client_thread ();
-}
-
-/* Start a thread that listens for client connections. */
-bool
-fhandler_fifo::listen_client ()
-{
-  if (!(lct_termination_evt = create_event ()))
-    return false;
-
-  listen_client_thr = CreateThread (NULL, PREFERRED_IO_BLKSIZE,
-				    listen_client_func, (PVOID) this, 0, NULL);
-  if (!listen_client_thr)
-    {
-      __seterrno ();
-      HANDLE evt = InterlockedExchangePointer (&lct_termination_evt, NULL);
-      if (evt)
-	NtClose (evt);
-      return false;
-    }
-  return true;
-}
-
 void
 fhandler_fifo::record_connection (fifo_client_handler& fc)
 {
@@ -320,14 +292,20 @@ fhandler_fifo::record_connection (fifo_client_handler& fc)
   set_pipe_non_blocking (fc.h, true);
 }
 
-DWORD
-fhandler_fifo::listen_client_thread ()
+static DWORD WINAPI
+fifo_reader_thread (LPVOID param)
 {
-  DWORD ret = -1;
-  HANDLE evt;
+  fhandler_fifo *fh = (fhandler_fifo *) param;
+  return fh->thread_func ();
+}
 
-  if (!(evt = create_event ()))
-    goto out;
+DWORD
+fhandler_fifo::thread_func ()
+{
+  HANDLE conn_evt;
+
+  if (!(conn_evt = create_event ()))
+    goto canceled;
 
   while (1)
     {
@@ -344,31 +322,32 @@ fhandler_fifo::listen_client_thread ()
 	  else
 	    i++;
 	}
-      fifo_client_unlock ();
 
       /* Create a new client handler. */
       if (add_client_handler () < 0)
-	goto out;
+	{
+	  fifo_client_unlock ();
+	  goto canceled;
+	}
 
       /* Listen for a writer to connect to the new client handler. */
       fifo_client_handler& fc = fc_handler[nhandlers - 1];
+      fifo_client_unlock ();
       SetEvent (listening_evt);
       NTSTATUS status;
       IO_STATUS_BLOCK io;
 
-      status = NtFsControlFile (fc.h, evt, NULL, NULL, &io,
+      status = NtFsControlFile (fc.h, conn_evt, NULL, NULL, &io,
 				FSCTL_PIPE_LISTEN, NULL, 0, NULL, 0);
       if (status == STATUS_PENDING)
 	{
-	  HANDLE w[2] = { evt, lct_termination_evt };
-	  DWORD waitret = WaitForMultipleObjects (2, w, false, INFINITE);
-	  switch (waitret)
+	  HANDLE w[2] = { conn_evt, cancel_evt };
+	  switch (WaitForMultipleObjects (2, w, false, INFINITE))
 	    {
 	    case WAIT_OBJECT_0:
 	      status = io.Status;
 	      break;
 	    case WAIT_OBJECT_0 + 1:
-	      ret = 0;
 	      status = STATUS_THREAD_IS_TERMINATING;
 	      break;
 	    default:
@@ -380,15 +359,17 @@ fhandler_fifo::listen_client_thread ()
 	}
       HANDLE ph = NULL;
       int ps = -1;
+      bool cancel = false;
       fifo_client_lock ();
       switch (status)
 	{
 	case STATUS_SUCCESS:
 	case STATUS_PIPE_CONNECTED:
 	  record_connection (fc);
-	  ResetEvent (evt);
+	  ResetEvent (conn_evt);
 	  break;
 	case STATUS_THREAD_IS_TERMINATING:
+	  cancel = true;
 	  /* Force NtFsControlFile to complete.  Otherwise the next
 	     writer to connect might not be recorded in the client
 	     handler list. */
@@ -410,37 +391,29 @@ fhandler_fifo::listen_client_thread ()
 	    {
 	      debug_printf ("failed to terminate NtFsControlFile cleanly");
 	      delete_client_handler (nhandlers - 1);
-	      ret = -1;
 	    }
 	  if (ph)
 	    NtClose (ph);
 	  fifo_client_unlock ();
-	  goto out;
+	  goto canceled;
 	default:
 	  debug_printf ("NtFsControlFile status %y", status);
 	  __seterrno_from_nt_status (status);
 	  delete_client_handler (nhandlers - 1);
 	  fifo_client_unlock ();
-	  goto out;
+	  goto canceled;
 	}
       fifo_client_unlock ();
       ResetEvent (listening_evt);
-      /* Check for thread termination in case WaitForMultipleObjects
-	 didn't get called above. */
-      if (IsEventSignalled (lct_termination_evt))
-	{
-	  ret = 0;
-	  goto out;
-	}
+      if (cancel)
+	goto canceled;
     }
-out:
-  if (evt)
-    NtClose (evt);
-  if (ret < 0)
-    debug_printf ("exiting with error, %E");
-  else
-    debug_printf ("exiting without error");
-  return ret;
+canceled:
+  if (conn_evt)
+    NtClose (conn_evt);
+  /* automatically return the cygthread to the cygthread pool */
+  _my_tls._ctinfo->auto_release ();
+  return 0;
 }
 
 int
@@ -494,8 +467,7 @@ fhandler_fifo::open (int flags, mode_t)
       goto err_close_read_ready;
     }
 
-  /* If we're reading, signal read_ready and start the listen_client
-     thread. */
+  /* If we're reading, signal read_ready and start the fifo_reader_thread. */
   if (reader)
     {
       if (!arm (read_ready))
@@ -505,15 +477,18 @@ fhandler_fifo::open (int flags, mode_t)
 	}
       if (!(listening_evt = create_event ()))
 	goto err_close_write_ready;
-      if (!listen_client ())
+      if (!(cancel_evt = create_event ()))
 	goto err_close_listening_evt;
+      if (!(sync_thr = create_event ()))
+	goto err_close_cancel_evt;
+      new cygthread (fifo_reader_thread, this, "fifo_reader", sync_thr);
 
       /* If we're a duplexer, we need a handle for writing. */
       if (duplexer)
 	{
 	  HANDLE ph = NULL;
 
-	  /* Wait until the lct is listening. */
+	  /* Wait until the frt is listening. */
 	  WaitForSingleObject (listening_evt, INFINITE);
 	  NTSTATUS status = open_pipe (ph);
 	  if (NT_SUCCESS (status))
@@ -524,21 +499,20 @@ fhandler_fifo::open (int flags, mode_t)
 	  else
 	    {
 	      __seterrno_from_nt_status (status);
-	      goto err_stop_lct;
+	      goto err_cancel_frt;
 	    }
 	}
 
       /* Not a duplexer; wait for a writer to connect. */
       else if (!wait (write_ready))
-	goto err_stop_lct;
+	goto err_cancel_frt;
 
-      init_fixup_before ();
       goto success;
     }
 
   /* If we're writing, wait for read_ready and then connect to the
      pipe.  This should always succeed quickly if the reader's
-     listen_client thread is running.  Then signal write_ready.  */
+     fifo_reader thread is running.  Then signal write_ready.  */
   if (writer)
     {
       while (1)
@@ -572,8 +546,11 @@ fhandler_fifo::open (int flags, mode_t)
     }
 success:
   return 1;
-err_stop_lct:
-  stop_listen_client ();
+err_cancel_frt:
+  cancel_reader_thread ();
+  NtClose (sync_thr);
+err_close_cancel_evt:
+  NtClose (cancel_evt);
 err_close_listening_evt:
   NtClose (listening_evt);
 err_close_write_ready:
@@ -738,7 +715,7 @@ fhandler_fifo::raw_write (const void *ptr, size_t len)
 /* A FIFO open for reading is at EOF if no process has it open for
    writing.  We test this by checking nconnected.  But we must take
    account of the possible delay from the time of connection to the
-   time the connection is recorded by the listen_client thread. */
+   time the connection is recorded by the fifo_reader thread. */
 bool
 fhandler_fifo::hit_eof ()
 {
@@ -752,50 +729,16 @@ repeat:
       if (eof && retry)
 	{
 	  retry = false;
-	  /* Give the listen_client thread time to catch up. */
+	  /* Give the fifo_reader thread time to catch up. */
 	  Sleep (1);
 	  goto repeat;
 	}
   return eof;
 }
 
-/* Is the lct running? */
-int
-fhandler_fifo::check_listen_client_thread ()
-{
-  int ret = 0;
-
-  if (listen_client_thr)
-    {
-      DWORD waitret = WaitForSingleObject (listen_client_thr, 0);
-      switch (waitret)
-	{
-	case WAIT_OBJECT_0:
-	  NtClose (listen_client_thr);
-	  break;
-	case WAIT_TIMEOUT:
-	  ret = 1;
-	  break;
-	default:
-	  debug_printf ("WaitForSingleObject failed, %E");
-	  ret = -1;
-	  __seterrno ();
-	  NtClose (listen_client_thr);
-	  break;
-	}
-    }
-  return ret;
-}
-
 void __reg3
 fhandler_fifo::raw_read (void *in_ptr, size_t& len)
 {
-  /* Make sure the lct is running. */
-  int res = check_listen_client_thread ();
-  debug_printf ("lct status %d", res);
-  if (res < 0 || (res == 0 && !listen_client ()))
-    goto errout;
-
   if (!len)
     return;
 
@@ -927,54 +870,43 @@ fifo_client_handler::pipe_state ()
     return fpli.NamedPipeState;
 }
 
-int
-fhandler_fifo::stop_listen_client ()
+void
+fhandler_fifo::cancel_reader_thread ()
 {
-  int ret = 0;
-  HANDLE thr, evt;
-
-  thr = InterlockedExchangePointer (&listen_client_thr, NULL);
-  if (thr)
+  if (cancel_evt)
+    SetEvent (cancel_evt);
+  if (sync_thr)
     {
-      if (lct_termination_evt)
-	SetEvent (lct_termination_evt);
-      WaitForSingleObject (thr, INFINITE);
-      DWORD err;
-      GetExitCodeThread (thr, &err);
-      if (err)
-	{
-	  ret = -1;
-	  debug_printf ("listen_client_thread exited with error");
-	}
-      NtClose (thr);
+      WaitForSingleObject (sync_thr, INFINITE);
+      NtClose (sync_thr);
     }
-  evt = InterlockedExchangePointer (&lct_termination_evt, NULL);
-  if (evt)
-    NtClose (evt);
-  return ret;
 }
 
 int
 fhandler_fifo::close ()
 {
-  /* Avoid deadlock with lct in case this is called from a signal
-     handler or another thread. */
-  fifo_client_unlock ();
-  int ret = stop_listen_client ();
-  if (read_ready && reader)
-    /* FIXME: There could be several readers open because of
-       dup/fork/exec; we should only reset read_ready when the last
-       one closes. */
-    ResetEvent (read_ready);
+  if (reader)
+    {
+      cancel_reader_thread ();
+      if (listening_evt)
+	NtClose (listening_evt);
+      if (cancel_evt)
+	NtClose (cancel_evt);
+      fifo_client_lock ();
+      for (int i = 0; i < nhandlers; i++)
+	fc_handler[i].close ();
+      fifo_client_unlock ();
+      if (read_ready)
+	/* FIXME: There could be several readers open because of
+	   dup/fork/exec; we should only reset read_ready when the last
+	   one closes. */
+	ResetEvent (read_ready);
+    }
   if (read_ready)
     NtClose (read_ready);
   if (write_ready)
     NtClose (write_ready);
-  fifo_client_lock ();
-  for (int i = 0; i < nhandlers; i++)
-    fc_handler[i].close ();
-  fifo_client_unlock ();
-  return fhandler_base::close () || ret;
+  return fhandler_base::close ();
 }
 
 /* If we have a write handle (i.e., we're a duplexer or a writer),
@@ -1021,31 +953,37 @@ fhandler_fifo::dup (fhandler_base *child, int flags)
       __seterrno ();
       goto err_close_read_ready;
     }
-  for (i = 0; i < nhandlers; i++)
-    {
-      if (!DuplicateHandle (GetCurrentProcess (), fc_handler[i].h,
-			    GetCurrentProcess (), &fhf->fc_handler[i].h,
-			    0, !(flags & O_CLOEXEC), DUPLICATE_SAME_ACCESS))
-	{
-	  __seterrno ();
-	  break;
-	}
-    }
-  if (i < nhandlers)
-    {
-      fifo_client_unlock ();
-      goto err_close_handlers;
-    }
-  fifo_client_unlock ();
   if (reader)
     {
+      fifo_client_lock ();
+      for (i = 0; i < nhandlers; i++)
+	{
+	  if (!DuplicateHandle (GetCurrentProcess (), fc_handler[i].h,
+				GetCurrentProcess (),
+				&fhf->fc_handler[i].h,
+				0, !(flags & O_CLOEXEC), DUPLICATE_SAME_ACCESS))
+	    {
+	      __seterrno ();
+	      break;
+	    }
+	}
+      if (i < nhandlers)
+	{
+	  fifo_client_unlock ();
+	  goto err_close_handlers;
+	}
+      fifo_client_unlock ();
       if (!(fhf->listening_evt = create_event ()))
 	goto err_close_handlers;
-      if (!fhf->listen_client ())
+      if (!(fhf->cancel_evt = create_event ()))
 	goto err_close_listening_evt;
-      fhf->init_fixup_before ();
+      if (!(fhf->sync_thr = create_event ()))
+	goto err_close_cancel_evt;
+      new cygthread (fifo_reader_thread, fhf, "fifo_reader", fhf->sync_thr);
     }
   return 0;
+err_close_cancel_evt:
+  NtClose (fhf->cancel_evt);
 err_close_listening_evt:
   NtClose (fhf->listening_evt);
 err_close_handlers:
@@ -1059,27 +997,24 @@ err:
 }
 
 void
-fhandler_fifo::init_fixup_before ()
-{
-  cygheap->fdtab.inc_need_fixup_before ();
-}
-
-void
 fhandler_fifo::fixup_after_fork (HANDLE parent)
 {
   fhandler_base::fixup_after_fork (parent);
   fork_fixup (parent, read_ready, "read_ready");
   fork_fixup (parent, write_ready, "write_ready");
-  fifo_client_lock ();
-  for (int i = 0; i < nhandlers; i++)
-  fork_fixup (parent, fc_handler[i].h, "fc_handler[].h");
-  fifo_client_unlock ();
   if (reader)
     {
+      fifo_client_lock ();
+      for (int i = 0; i < nhandlers; i++)
+	fork_fixup (parent, fc_handler[i].h, "fc_handler[].h");
+      fifo_client_unlock ();
       if (!(listening_evt = create_event ()))
-	api_fatal ("Can't create listening event during fork, %E");
-      if (!listen_client ())
-	debug_printf ("failed to start lct, %E");
+	api_fatal ("Can't create reader thread listening event during fork, %E");
+      if (!(cancel_evt = create_event ()))
+	api_fatal ("Can't create reader thread cancel event during fork, %E");
+      if (!(sync_thr = create_event ()))
+	api_fatal ("Can't create reader thread sync event during fork, %E");
+      new cygthread (fifo_reader_thread, this, "fifo_reader", sync_thr);
     }
 }
 
@@ -1091,8 +1026,11 @@ fhandler_fifo::fixup_after_exec ()
     {
       if (!(listening_evt = create_event ()))
 	debug_printf ("Failed to create listening event during exec, %E");
-      if (!listen_client ())
-	debug_printf ("failed to start lct, %E");
+      if (!(cancel_evt = create_event ()))
+	api_fatal ("Can't create reader thread cancel event during exec, %E");
+      if (!(sync_thr = create_event ()))
+	api_fatal ("Can't create reader thread sync event during exec, %E");
+      new cygthread (fifo_reader_thread, this, "fifo_reader", sync_thr);
     }
 }
 
