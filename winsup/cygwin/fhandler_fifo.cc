@@ -312,104 +312,105 @@ fhandler_fifo::thread_func ()
 
   while (1)
     {
-      /* At the beginning of the loop, all client handlers are
-	 in the fc_connected or fc_invalid state. */
+	  /* At the beginning of the loop, all client handlers are
+	     in the fc_connected or fc_invalid state. */
 
-      /* Delete any invalid clients. */
-      fifo_client_lock ();
-      int i = 0;
-      while (i < nhandlers)
-	{
-	  if (fc_handler[i].state == fc_invalid)
-	    delete_client_handler (i);
-	  else
-	    i++;
-	}
+	  /* Delete any invalid clients. */
+	  fifo_client_lock ();
+	  int i = 0;
+	  while (i < nhandlers)
+	    {
+	      if (fc_handler[i].state == fc_invalid)
+		delete_client_handler (i);
+	      else
+		i++;
+	    }
 
-      /* Create a new client handler. */
-      if (add_client_handler () < 0)
-	{
+	  /* Create a new client handler. */
+	  if (add_client_handler () < 0)
+	    {
+	      fifo_client_unlock ();
+	      goto canceled;
+	    }
+
+	  /* Listen for a writer to connect to the new client handler. */
+	  fifo_client_handler& fc = fc_handler[nhandlers - 1];
 	  fifo_client_unlock ();
-	  goto canceled;
-	}
+	  SetEvent (listening_evt);
+	  NTSTATUS status;
+	  IO_STATUS_BLOCK io;
 
-      /* Listen for a writer to connect to the new client handler. */
-      fifo_client_handler& fc = fc_handler[nhandlers - 1];
-      fifo_client_unlock ();
-      SetEvent (listening_evt);
-      NTSTATUS status;
-      IO_STATUS_BLOCK io;
+	  status = NtFsControlFile (fc.h, conn_evt, NULL, NULL, &io,
+				    FSCTL_PIPE_LISTEN, NULL, 0, NULL, 0);
+	  if (status == STATUS_PENDING)
+	    {
+	      HANDLE w[2] = { conn_evt, cancel_evt };
+	      switch (WaitForMultipleObjects (2, w, false, INFINITE))
+		{
+		case WAIT_OBJECT_0:
+		  status = io.Status;
+		  break;
+		case WAIT_OBJECT_0 + 1:
+		  status = STATUS_THREAD_IS_TERMINATING;
+		  break;
+		default:
+		  __seterrno ();
+		  debug_printf ("WaitForMultipleObjects failed, %E");
+		  status = STATUS_THREAD_IS_TERMINATING;
+		  break;
+		}
+	    }
+	  HANDLE ph = NULL;
+	  int ps = -1;
+	  bool cancel = false;
 
-      status = NtFsControlFile (fc.h, conn_evt, NULL, NULL, &io,
-				FSCTL_PIPE_LISTEN, NULL, 0, NULL, 0);
-      if (status == STATUS_PENDING)
-	{
-	  HANDLE w[2] = { conn_evt, cancel_evt };
-	  switch (WaitForMultipleObjects (2, w, false, INFINITE))
+	  fifo_client_lock ();
+	  switch (status)
 	    {
-	    case WAIT_OBJECT_0:
-	      status = io.Status;
-	      break;
-	    case WAIT_OBJECT_0 + 1:
-	      status = STATUS_THREAD_IS_TERMINATING;
-	      break;
-	    default:
-	      __seterrno ();
-	      debug_printf ("WaitForMultipleObjects failed, %E");
-	      status = STATUS_THREAD_IS_TERMINATING;
-	      break;
-	    }
-	}
-      HANDLE ph = NULL;
-      int ps = -1;
-      bool cancel = false;
-      fifo_client_lock ();
-      switch (status)
-	{
-	case STATUS_SUCCESS:
-	case STATUS_PIPE_CONNECTED:
-	  record_connection (fc);
-	  ResetEvent (conn_evt);
-	  break;
-	case STATUS_THREAD_IS_TERMINATING:
-	  cancel = true;
-	  /* Force NtFsControlFile to complete.  Otherwise the next
-	     writer to connect might not be recorded in the client
-	     handler list. */
-	  status = open_pipe (ph);
-	  if (NT_SUCCESS (status)
-	      && (NT_SUCCESS (io.Status) || io.Status == STATUS_PIPE_CONNECTED))
-	    {
-	      debug_printf ("successfully connected bogus client");
-	      delete_client_handler (nhandlers - 1);
-	    }
-	  else if ((ps = fc.pipe_state ()) == FILE_PIPE_CONNECTED_STATE
-		   || ps == FILE_PIPE_INPUT_AVAILABLE_STATE)
-	    {
-	      /* A connection was made under our nose. */
-	      debug_printf ("recording connection before terminating");
+	    case STATUS_SUCCESS:
+	    case STATUS_PIPE_CONNECTED:
 	      record_connection (fc);
-	    }
-	  else
-	    {
-	      debug_printf ("failed to terminate NtFsControlFile cleanly");
+	      ResetEvent (conn_evt);
+	      break;
+	    case STATUS_THREAD_IS_TERMINATING:
+	      cancel = true;
+	      /* Force NtFsControlFile to complete.  Otherwise the next
+		 writer to connect might not be recorded in the client
+		 handler list. */
+	      status = open_pipe (ph);
+	      if (NT_SUCCESS (status)
+		  && (NT_SUCCESS (io.Status) || io.Status == STATUS_PIPE_CONNECTED))
+		{
+		  debug_printf ("successfully connected bogus client");
+		  delete_client_handler (nhandlers - 1);
+		}
+	      else if ((ps = fc.pipe_state ()) == FILE_PIPE_CONNECTED_STATE
+		       || ps == FILE_PIPE_INPUT_AVAILABLE_STATE)
+		{
+		  /* A connection was made under our nose. */
+		  debug_printf ("recording connection before terminating");
+		  record_connection (fc);
+		}
+	      else
+		{
+		  debug_printf ("failed to terminate NtFsControlFile cleanly");
+		  delete_client_handler (nhandlers - 1);
+		}
+	      if (ph)
+		NtClose (ph);
+	      fifo_client_unlock ();
+	      goto canceled;
+	    default:
+	      debug_printf ("NtFsControlFile status %y", status);
+	      __seterrno_from_nt_status (status);
 	      delete_client_handler (nhandlers - 1);
+	      fifo_client_unlock ();
+	      goto canceled;
 	    }
-	  if (ph)
-	    NtClose (ph);
 	  fifo_client_unlock ();
-	  goto canceled;
-	default:
-	  debug_printf ("NtFsControlFile status %y", status);
-	  __seterrno_from_nt_status (status);
-	  delete_client_handler (nhandlers - 1);
-	  fifo_client_unlock ();
-	  goto canceled;
-	}
-      fifo_client_unlock ();
-      ResetEvent (listening_evt);
-      if (cancel)
-	goto canceled;
+	  ResetEvent (listening_evt);
+	  if (cancel)
+	    goto canceled;
     }
 canceled:
   if (conn_evt)
