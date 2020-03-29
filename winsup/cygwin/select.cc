@@ -850,6 +850,15 @@ peek_fifo (select_record *s, bool from_select)
   int gotone = 0;
   fhandler_fifo *fh = (fhandler_fifo *) s->fh;
 
+  fh->owner_lock ();
+  if (fh->get_owner () != fh->get_me())
+    {
+      fh->owner_unlock ();
+      s->thread_errno = ENOTSUP;
+      return -1;
+    }
+  fh->owner_unlock ();
+
   if (s->read_selected)
     {
       if (s->read_ready)
