@@ -997,10 +997,8 @@ fhandler_fifo::close ()
 	NtClose (listening_evt);
       if (cancel_evt)
 	NtClose (cancel_evt);
-      fifo_client_lock ();
       for (int i = 0; i < nhandlers; i++)
 	fc_handler[i].close ();
-      fifo_client_unlock ();
       nreaders_lock ();
       if (read_ready && dec_nreaders () == 0)
 	ResetEvent (read_ready);
