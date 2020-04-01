@@ -1133,14 +1133,16 @@ fhandler_fifo::fixup_after_fork (HANDLE parent)
   fork_fixup (parent, write_ready, "write_ready");
   if (reader)
     {
+      fifo_client_unlock ();
       fork_fixup (parent, shmem_handle, "shmem_handle");
       /* The child needs its own view of shared memory. */
       if (reopen_shmem () < 0)
 	api_fatal ("Can't reopen shared memory during fork, %E");
-      fifo_client_lock ();
-      for (int i = 0; i < nhandlers; i++)
-	fork_fixup (parent, fc_handler[i].h, "fc_handler[].h");
-      fifo_client_unlock ();
+      /* Close unneeded inherited handles */
+      if (!close_on_exec ())
+	for (int i = 0; i < nhandlers; i++)
+	  fc_handler[i].close ();
+      nconnected = nhandlers = 0;
       if (!(listening_evt = create_event ()))
 	api_fatal ("Can't create reader thread listening event during fork, %E");
       if (!(cancel_evt = create_event ()))
@@ -1161,6 +1163,7 @@ fhandler_fifo::fixup_after_exec ()
   fhandler_base::fixup_after_exec ();
   if (reader && !close_on_exec ())
     {
+      fifo_client_unlock ();
       /* The child needs its own view of shared memory. */
       if (reopen_shmem () < 0)
 	api_fatal ("Can't reopen shared memory during exec, %E");
