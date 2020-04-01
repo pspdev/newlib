@@ -606,31 +606,42 @@ fhandler_fifo::open (int flags, mode_t)
     {
       while (1)
 	{
-	  if (wait (read_ready))
-	    WaitForSingleObject (listening_evt, INFINITE);
-	  else
+	  if (!wait (read_ready))
 	    goto err_close_write_ready;
 
-	  NTSTATUS status = open_pipe (get_handle ());
-	  if (NT_SUCCESS (status))
+	  /* If there are a lot of writers trying to connect
+	     simultaneously, it might several tries to find an
+	     available pipe instance. */
+	  int retries = 10000;
+	  NTSTATUS status;
+
+	  while (retries-- > 0)
 	    {
-	      set_pipe_non_blocking (get_handle (), flags & O_NONBLOCK);
-	      if (!arm (write_ready))
+	      WaitForSingleObject (listening_evt, INFINITE);
+	      status = open_pipe (get_handle ());
+	      if (NT_SUCCESS (status))
 		{
-		  __seterrno ();
+		  set_pipe_non_blocking (get_handle (), flags & O_NONBLOCK);
+		  if (!arm (write_ready))
+		    {
+		      __seterrno ();
+		      goto err_close_write_ready;
+		    }
+		  else
+		    goto success;
+		}
+	      else if (STATUS_PIPE_NO_INSTANCE_AVAILABLE (status))
+		continue;
+	      else
+		{
+		  debug_printf ("create of writer failed");
+		  __seterrno_from_nt_status (status);
 		  goto err_close_write_ready;
 		}
-	      else
-		goto success;
 	    }
-	  else if (STATUS_PIPE_NO_INSTANCE_AVAILABLE (status))
-	    Sleep (1);
-	  else
-	    {
-	      debug_printf ("create of writer failed");
-	      __seterrno_from_nt_status (status);
-	      goto err_close_write_ready;
-	    }
+	  debug_printf ("No pipe instance available after 10000 tries, %E");
+	  __seterrno_from_nt_status (status);
+	  goto err_close_write_ready;
 	}
     }
 success:
