@@ -1268,7 +1268,6 @@ public:
 };
 
 #define CYGWIN_FIFO_PIPE_NAME_LEN     47
-#define MAX_CLIENTS 64
 
 enum fifo_client_connect_state
 {
@@ -1350,7 +1349,8 @@ class fhandler_fifo: public fhandler_base
                                    client connections. */
   UNICODE_STRING pipe_name;
   WCHAR pipe_name_buf[CYGWIN_FIFO_PIPE_NAME_LEN + 1];
-  fifo_client_handler fc_handler[MAX_CLIENTS];
+  fifo_client_handler *fc_handler; /* Dynamically growing array. */
+  int shandlers;       /* Size of fc_handler array. */
   int nhandlers, nconnected;
   af_unix_spinlock_t _fifo_client_lock;
   bool reader, writer, duplexer;

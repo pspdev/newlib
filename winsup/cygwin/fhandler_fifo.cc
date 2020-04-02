@@ -70,7 +70,8 @@ static NO_COPY fifo_reader_id_t null_fr_id = { .winpid = 0, .fh = NULL };
 fhandler_fifo::fhandler_fifo ():
   fhandler_base (), read_ready (NULL), write_ready (NULL),
   cancel_evt (NULL), sync_thr (NULL), listening_evt (NULL),
-  nhandlers (0), nconnected (0),
+  fc_handler (NULL),
+  shandlers (0), nhandlers (0), nconnected (0),
   reader (false), writer (false), duplexer (false),
   max_atomic_write (DEFAULT_PIPEBUFSIZE),
   shmem_handle (NULL), shmem (NULL), me (null_fr_id)
@@ -252,26 +253,23 @@ fhandler_fifo::open_pipe (HANDLE& ph)
 int
 fhandler_fifo::add_client_handler ()
 {
-  int ret = -1;
   fifo_client_handler fc;
   HANDLE ph = NULL;
 
-  if (nhandlers == MAX_CLIENTS)
+  if (nhandlers >= shandlers)
     {
-      set_errno (EMFILE);
-      goto out;
+      void *temp = realloc (fc_handler,
+			    (shandlers += 64) * sizeof (fc_handler[0]));
+      if (!temp)
+	return -1;
+      fc_handler = (fifo_client_handler *) temp;
     }
   ph = create_pipe_instance ();
   if (!ph)
-    goto out;
-  else
-    {
-      ret = 0;
-      fc.h = ph;
-      fc_handler[nhandlers++] = fc;
-    }
-out:
-  return ret;
+    return -1;
+  fc.h = ph;
+  fc_handler[nhandlers++] = fc;
+  return 0;
 }
 
 void
@@ -346,11 +344,7 @@ fhandler_fifo::thread_func ()
 
 	  /* Create a new client handler. */
 	  if (add_client_handler () < 0)
-	    {
-	      fifo_client_unlock ();
-	      owner_unlock ();
-	      goto canceled;
-	    }
+	    api_fatal ("Can't add a client handler, %E");
 
 	  /* Listen for a writer to connect to the new client handler. */
 	  fifo_client_handler& fc = fc_handler[nhandlers - 1];
@@ -1010,6 +1004,8 @@ fhandler_fifo::close ()
 	NtClose (cancel_evt);
       for (int i = 0; i < nhandlers; i++)
 	fc_handler[i].close ();
+      if (fc_handler)
+	free (fc_handler);
       nreaders_lock ();
       if (read_ready && dec_nreaders () == 0)
 	ResetEvent (read_ready);
@@ -1050,7 +1046,6 @@ fhandler_fifo::fcntl (int cmd, intptr_t arg)
 int
 fhandler_fifo::dup (fhandler_base *child, int flags)
 {
-  int i = 0;
   fhandler_fifo *fhf = NULL;
 
   if (get_flags () & O_PATH)
@@ -1085,30 +1080,14 @@ fhandler_fifo::dup (fhandler_base *child, int flags)
 	}
       if (fhf->reopen_shmem () < 0)
 	goto err_close_shmem_handle;
-      fifo_client_lock ();
-      for (i = 0; i < nhandlers; i++)
-	{
-	  if (!DuplicateHandle (GetCurrentProcess (), fc_handler[i].h,
-				GetCurrentProcess (),
-				&fhf->fc_handler[i].h,
-				0, !(flags & O_CLOEXEC), DUPLICATE_SAME_ACCESS))
-	    {
-	      __seterrno ();
-	      break;
-	    }
-	}
-      if (i < nhandlers)
-	{
-	  fifo_client_unlock ();
-	  goto err_close_handlers;
-	}
-      fifo_client_unlock ();
       if (!(fhf->listening_evt = create_event ()))
-	goto err_close_handlers;
+	goto err_close_shmem;
       if (!(fhf->cancel_evt = create_event ()))
 	goto err_close_listening_evt;
       if (!(fhf->sync_thr = create_event ()))
 	goto err_close_cancel_evt;
+      fhf->nhandlers = fhf->shandlers = fhf->nconnected = 0;
+      fhf->fc_handler = NULL;
       nreaders_lock ();
       inc_nreaders ();
       nreaders_unlock ();
@@ -1120,9 +1099,7 @@ err_close_cancel_evt:
   NtClose (fhf->cancel_evt);
 err_close_listening_evt:
   NtClose (fhf->listening_evt);
-err_close_handlers:
-  for (int j = 0; j < i; j++)
-    fhf->fc_handler[j].close ();
+err_close_shmem:
   NtUnmapViewOfSection (GetCurrentProcess (), fhf->shmem);
 err_close_shmem_handle:
   NtClose (fhf->shmem_handle);
@@ -1176,6 +1153,8 @@ fhandler_fifo::fixup_after_exec ()
       /* The child needs its own view of shared memory. */
       if (reopen_shmem () < 0)
 	api_fatal ("Can't reopen shared memory during exec, %E");
+      fc_handler = NULL;
+      nhandlers = shandlers = nconnected = 0;
       me.winpid = GetCurrentProcessId ();
       if (!(listening_evt = create_event ()))
 	api_fatal ("Can't create reader thread listening event during exec, %E");
