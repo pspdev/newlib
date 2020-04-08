@@ -604,14 +604,14 @@ fhandler_fifo::open (int flags, mode_t)
 	    goto err_close_write_ready;
 
 	  /* If there are a lot of writers trying to connect
-	     simultaneously, it might several tries to find an
-	     available pipe instance. */
+	     simultaneously, it might take several tries.  */
 	  int retries = 10000;
 	  NTSTATUS status;
 
 	  while (retries-- > 0)
 	    {
-	      WaitForSingleObject (listening_evt, INFINITE);
+	      if (!is_nonblocking ())
+		WaitForSingleObject (listening_evt, INFINITE);
 	      status = open_pipe (get_handle ());
 	      if (NT_SUCCESS (status))
 		{
@@ -624,7 +624,8 @@ fhandler_fifo::open (int flags, mode_t)
 		  else
 		    goto success;
 		}
-	      else if (STATUS_PIPE_NO_INSTANCE_AVAILABLE (status))
+	      else if (STATUS_PIPE_NO_INSTANCE_AVAILABLE (status)
+		       || status == STATUS_OBJECT_NAME_NOT_FOUND)
 		continue;
 	      else
 		{
