@@ -122,6 +122,7 @@ _PTR	_EXFUN_NOTHROW(realloc,(_PTR __r, size_t __size));
 #ifndef __STRICT_ANSI__
 _PTR	_EXFUN(reallocf,(_PTR __r, size_t __size));
 #endif
+char * _EXFUN(realpath,(const char *, char *));
 _VOID	_EXFUN(srand,(unsigned __seed));
 double	_EXFUN(strtod,(const char *__n, char **__end_PTR));
 double	_EXFUN(_strtod_r,(struct _reent *,const char *__n, char **__end_PTR));

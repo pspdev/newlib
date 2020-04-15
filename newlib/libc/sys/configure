@@ -796,6 +796,7 @@ m88kbug
 mmixware
 netware
 rdos
+psp
 rtems
 sh
 sparc64
@@ -11807,6 +11808,8 @@ subdirs="$subdirs a29khif"
 	netware) subdirs="$subdirs netware"
  ;;
 	rdos) subdirs="$subdirs rdos"
+ ;;
+	psp) subdirs="$subdirs psp"
  ;;
 	rtems) subdirs="$subdirs rtems"
  ;;

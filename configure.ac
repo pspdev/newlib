@@ -1024,6 +1024,9 @@ case "${target}" in
     ;;
   mips*-*-linux*)
     ;;
+  mipsallegrex*-*-*)
+    noconfigdirs="$noconfigdirs target-libgloss"
+    ;;
   mips*-*-*)
     noconfigdirs="$noconfigdirs gprof"
     ;;
