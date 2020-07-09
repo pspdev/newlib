@@ -45,7 +45,7 @@ typedef __intptr_t register_t;
 #include <sys/_types.h>
 #include <sys/_stdint.h>
 
-#if __BSD_VISIBLE
+#if __BSD_VISIBLE && !defined(__psp__)
 #include <machine/endian.h>
 #include <sys/select.h>
 #  define	physadr		physadr_t
@@ -62,7 +62,7 @@ typedef	__uint16_t	in_port_t;
 #endif
 
 typedef	__uintptr_t	u_register_t;
-#endif /* __BSD_VISIBLE */
+#endif /* __BSD_VISIBLE !_psp */
 
 #if __MISC_VISIBLE
 #ifndef _BSDTYPES_DEFINED

@@ -147,7 +147,7 @@ void	*realloc(void *, size_t) __result_use_check __alloc_size(2) _NOTHROW;
 void	*reallocarray(void *, size_t, size_t) __result_use_check __alloc_size2(2, 3);
 void	*reallocf(void *, size_t) __result_use_check __alloc_size(2);
 #endif
-#if __BSD_VISIBLE || __XSI_VISIBLE >= 4
+#if __BSD_VISIBLE || __XSI_VISIBLE >= 4 || defined(__psp__) // FIXME: pspdev
 char *	realpath (const char *__restrict path, char *__restrict resolved_path);
 #endif
 #if __BSD_VISIBLE

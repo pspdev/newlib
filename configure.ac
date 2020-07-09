@@ -1211,6 +1211,9 @@ case "${target}" in
   i[[3456789]]86-*-rdos*)
     noconfigdirs="$noconfigdirs gdb"
     ;;
+  mipsallegrex*-*-*)
+    noconfigdirs="$noconfigdirs target-libgloss"
+    ;;
   mmix-*-*)
     noconfigdirs="$noconfigdirs gdb"
     ;;

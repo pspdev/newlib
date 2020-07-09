@@ -29,8 +29,9 @@
 /* Check if "long" is 64bit or 32bit wide */
 #if __EXP(LONG_MAX) > 0x7fffffff
 #define __have_long64 1
-#elif __EXP(LONG_MAX) == 0x7fffffff && !defined(__SPU__)
-#define __have_long32 1
+// FIXME: Needed for PSP?
+//#elif __EXP(LONG_MAX) == 0x7fffffff && !defined(__SPU__)
+//#define __have_long32 1
 #endif
 
 #ifdef __cplusplus
