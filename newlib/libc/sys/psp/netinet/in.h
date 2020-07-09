@@ -259,10 +259,19 @@ struct ip_mreq {
 #define	IP_PORTRANGE_HIGH	1	/* same as DEFAULT (FreeBSD compat) */
 #define	IP_PORTRANGE_LOW	2	/* use privileged range */
 
+
+#if 0
+// FIXME: These are optimized (one instruction), but currently not part of psp-gcc
 #define ntohs(x) __builtin_allegrex_wsbh(x)
 #define ntohl(x) __builtin_allegrex_wsbw(x)
 #define htons(x) __builtin_allegrex_wsbh(x)
 #define htonl(x) __builtin_allegrex_wsbw(x)
+#else
+#define ntohs(x) __builtin_bswap16(x)
+#define ntohl(x) __builtin_bswap32(x)
+#define htons(x) __builtin_bswap16(x)
+#define htonl(x) __builtin_bswap32(x)
+#endif
 
 #ifdef __cplusplus
 }
