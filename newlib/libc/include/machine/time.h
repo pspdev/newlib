@@ -7,6 +7,10 @@
 #define _CLOCKS_PER_SEC_ 100
 #endif
 
+#if defined(__psp__)
+#define _CLOCKS_PER_SEC_  1000000
+#endif
+
 #ifdef __SPU__
 #include <sys/_timespec.h>
 int nanosleep (const struct timespec *, struct timespec *);

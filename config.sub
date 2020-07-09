@@ -484,6 +484,10 @@ case $1 in
 				basic_machine=hppa-unknown
 				os=linux
 				;;
+			psp)
+				basic_machine=mipsallegrexel-sony
+				os=psp
+				;;
 			pw32)
 				basic_machine=i586-unknown
 				os=pw32
@@ -1210,6 +1214,7 @@ case $cpu-$vendor in
 			| mipsisa64sr71k | mipsisa64sr71kel \
 			| mipsr5900 | mipsr5900el \
 			| mipstx39 | mipstx39el \
+			| mipsallegrex* \
 			| mmix \
 			| mn10200 | mn10300 \
 			| moxie \
@@ -1506,6 +1511,8 @@ case $os in
 	nacl*)
 		;;
 	ios)
+		;;
+	psp)
 		;;
 	none)
 		;;

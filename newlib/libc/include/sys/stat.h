@@ -39,9 +39,15 @@ struct	stat
   time_t	st_mtime;
   time_t	st_ctime;
 #else
+#if defined(__psp__) 
+  time_t  st_atime;
+  time_t  st_mtime;
+  time_t  st_ctime;
+#else
   struct timespec st_atim;
   struct timespec st_mtim;
   struct timespec st_ctim;
+#endif
   blksize_t     st_blksize;
   blkcnt_t	st_blocks;
 #if !defined(__rtems__)
@@ -50,7 +56,7 @@ struct	stat
 #endif
 };
 
-#if !(defined(__svr4__) && !defined(__PPC__) && !defined(__sun__)) && !defined(__cris__)
+#if !(defined(__svr4__) && !defined(__PPC__) && !defined(__sun__)) && !defined(__cris__) && !defined(__psp__)
 #define st_atime st_atim.tv_sec
 #define st_ctime st_ctim.tv_sec
 #define st_mtime st_mtim.tv_sec

@@ -1,6 +1,8 @@
 #ifndef _SYS_SELECT_H
 #define _SYS_SELECT_H
 
+#if !defined(__psp__)
+
 /* We don't define fd_set and friends if we are compiling POSIX
    source, or if we have included (or may include as indicated
    by __USE_W32_SOCKETS) the W32api winsock[2].h header which
@@ -72,5 +74,7 @@ __END_DECLS
 #endif /* !__INSIDE_CYGWIN_NET__ */
 
 #endif /* !(_WINSOCK_H || _WINSOCKAPI_ || __USE_W32_SOCKETS) */
+
+#endif /* !defined(__psp__) */
 
 #endif /* sys/select.h */

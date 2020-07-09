@@ -309,6 +309,7 @@ int	setdtablesize (int);
 void    sync (void);
 #endif
 
+#if !defined(__psp__)
 #if __BSD_VISIBLE || __POSIX_VISIBLE >= 200112 || __XSI_VISIBLE >= 4
 ssize_t readlink (const char *__restrict __path,
                           char *__restrict __buf, size_t __buflen);
@@ -319,6 +320,7 @@ ssize_t        readlinkat (int __dirfd1, const char *__restrict __path,
                             char *__restrict __buf, size_t __buflen);
 int	symlinkat (const char *, int, const char *);
 int	unlinkat (int, const char *, int);
+#endif
 #endif
 
 #define	F_OK	0
