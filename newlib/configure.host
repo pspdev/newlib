@@ -819,7 +819,7 @@ newlib_cflags="${newlib_cflags} -DCLOCK_PROVIDED -DMALLOC_PROVIDED -DEXIT_PROVID
 	default_newlib_io_pos_args="yes"
 	sys_dir=psp
 	syscall_dir=syscalls
-	newlib_cflags="${newlib_cflags} -G0 -mno-explicit-relocs -DCOMPACT_CTYPE -DCLOCK_PROVIDED -DHAVE_FCNTL -DHAVE_RENAME -DMALLOC_ALIGNMENT=16 -I${prefix}/psp/sdk/include"
+	newlib_cflags="${newlib_cflags} -G0 -mno-explicit-relocs -DCOMPACT_CTYPE -DCLOCK_PROVIDED -DHAVE_FCNTL -DHAVE_RENAME -DMALLOC_ALIGNMENT=16 -I${prefix}/psp/sdk/include -ffunction-sections"
 	;;
   mips*-*-elf*)
 	default_newlib_io_long_long="yes"
