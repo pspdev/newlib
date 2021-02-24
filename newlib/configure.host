@@ -245,6 +245,10 @@ case "${host_cpu}" in
   mep)
 	machine_dir=mep
 	;;
+  mips64r5900*)
+  	machine_dir=r5900
+	newlib_cflags="${newlib_cflags} -DMALLOC_ALIGNMENT=16"
+	;;
   mips*)
 	machine_dir=mips
 	libm_machine_dir=mips
@@ -527,6 +531,11 @@ case "${host}" in
   microblaze*-*-*)
 	machine_dir=microblaze
 	;;
+  mips*-ps2-*)
+	sys_dir=ps2
+	posix_dir=posix
+	newlib_cflags="${newlib_cflags} -G0 -DHAVE_NANOSLEEP -DHAVE_OPENDIR"
+	;;
   mmix-knuth-mmixware)
 	sys_dir=mmixware
 	;;
@@ -768,6 +777,10 @@ newlib_cflags="${newlib_cflags} -DCLOCK_PROVIDED -DMALLOC_PROVIDED -DEXIT_PROVID
   mips64vr*-*-*)
 	default_newlib_io_long_long="yes"
 	newlib_cflags="${newlib_cflags} -DMISSING_SYSCALL_NAMES"
+	;;
+  mips*-ps2-elf*)
+	syscall_dir=syscalls
+	default_newlib_io_long_long="yes"
 	;;
   mips*-*-elf*)
 	default_newlib_io_long_long="yes"

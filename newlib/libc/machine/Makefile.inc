@@ -124,6 +124,9 @@ endif
 if HAVE_LIBC_MACHINE_PRU
 include %D%/pru/Makefile.inc
 endif
+if HAVE_LIBC_MACHINE_R5900
+include %D%/r5900/Makefile.inc
+endif
 if HAVE_LIBC_MACHINE_RISCV
 include %D%/riscv/Makefile.inc
 endif

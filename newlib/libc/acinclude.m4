@@ -19,6 +19,7 @@ m4_foreach_w([SYS_DIR], [
   m88kbug mmixware
   netware
   or1k
+  ps2
   rdos rtems
   sh sysmec sysnec810 sysnecv850 sysvi386 sysvnecv70
   tic80 tirtos
@@ -55,7 +56,7 @@ m4_foreach_w([MACHINE], [
   nds32 necv70 nios2 nvptx
   or1k
   powerpc pru
-  riscv rl78 rx
+  r5900 riscv rl78 rx
   sh sparc spu
   tic4x tic6x tic80
   v850 visium

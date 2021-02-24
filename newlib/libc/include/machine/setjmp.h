@@ -129,10 +129,17 @@ _BEGIN_STD_C
 
 #ifdef __mips__
 # if defined(__mips64)
-#  define _JBTYPE long long
+#  if defined(_MIPS_ARCH_R5900)
+    typedef unsigned int jbtype128 __attribute__(( mode(TI) ));
+#   define _JBTYPE jbtype128
+#  else
+#   define _JBTYPE long long
+#  endif
 # endif
 # ifdef __mips_soft_float
 #  define _JBLEN 11
+# elif defined(_MIPS_ARCH_R5900)
+#  define _JBLEN 14
 # else
 #  define _JBLEN 23
 # endif
