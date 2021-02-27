@@ -19,6 +19,7 @@ m4_foreach_w([SYS_DIR], [
   m88kbug mmixware
   netware
   or1k
+  psp
   rdos rtems
   sh sysmec sysnec810 sysnecv850 sysvi386 sysvnecv70
   tic80 tirtos
