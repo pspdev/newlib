@@ -11858,6 +11858,8 @@ subdirs="$subdirs a29k"
  ;;
 	aarch64) subdirs="$subdirs aarch64"
  ;;
+  allegrex) subdirs="$subdirs allegrex"
+ ;;
 	amdgcn) subdirs="$subdirs amdgcn"
  ;;
 	arc) subdirs="$subdirs arc"

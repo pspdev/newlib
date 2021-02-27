@@ -11852,6 +11852,8 @@ subdirs="$subdirs a29khif"
  ;;
 	phoenix) subdirs="$subdirs phoenix"
  ;;
+  psp) subdirs="$subdirs psp"
+ ;;
 	rdos) subdirs="$subdirs rdos"
  ;;
 	rtems) subdirs="$subdirs rtems"
