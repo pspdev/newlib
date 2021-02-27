@@ -1269,6 +1269,9 @@ case "${target}" in
   | mips*-*-irix* | mips*-*-lnews* | mips*-*-riscos*)
     noconfigdirs="$noconfigdirs ld gas gprof"
     ;;
+  mips*-psp-*)
+    noconfigdirs="$noconfigdirs gprof target-libgloss"
+    ;;
   mips*-*-*)
     noconfigdirs="$noconfigdirs gprof"
     ;;
