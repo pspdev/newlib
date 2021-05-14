@@ -1,14 +1,10 @@
 #ifndef	_MACHTIME_H_
 #define	_MACHTIME_H_
 
-#if defined(__rtems__) || defined(__VISIUM__) || defined(__riscv)
+#if defined(__rtems__) || defined(__VISIUM__) || defined(__riscv) || defined(__psp__)
 #define _CLOCKS_PER_SEC_ 1000000
 #elif defined(__aarch64__) || defined(__arm__) || defined(__thumb__)
 #define _CLOCKS_PER_SEC_ 100
-#endif
-
-#if defined(__psp__)
-#define _CLOCKS_PER_SEC_  1000000
 #endif
 
 #ifdef __SPU__

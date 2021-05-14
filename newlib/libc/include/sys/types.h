@@ -62,7 +62,7 @@ typedef	__uint16_t	in_port_t;
 #endif
 
 typedef	__uintptr_t	u_register_t;
-#endif /* __BSD_VISIBLE */
+#endif /* __BSD_VISIBLE !_psp */
 
 #if __MISC_VISIBLE
 #ifndef _BSDTYPES_DEFINED
