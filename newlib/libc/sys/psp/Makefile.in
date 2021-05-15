@@ -71,10 +71,11 @@ lib_a_AR = $(AR) $(ARFLAGS)
 lib_a_DEPENDENCIES = $(LIBCGLUE_MULT_OBJS) $(SOCKET_MULT_OBJS) \
 	$(XPRINTF_MULT_OBJS) $(NETDB_MULT_OBJS) $(FDMAN_OBJS) \
 	$(SELECT_OBJS) $(INTERRUPT_OBJS)
-am_lib_a_OBJECTS = libcglue.$(OBJEXT) socket.$(OBJEXT) \
-	pspcwd.$(OBJEXT) xprintf.$(OBJEXT) netdb.$(OBJEXT) \
-	pipe.$(OBJEXT) fdman.$(OBJEXT) select.$(OBJEXT) \
-	syscalls.$(OBJEXT) interrupt.$(OBJEXT)
+am_lib_a_OBJECTS = lib_a-libcglue.$(OBJEXT) lib_a-socket.$(OBJEXT) \
+	lib_a-pspcwd.$(OBJEXT) lib_a-xprintf.$(OBJEXT) \
+	lib_a-netdb.$(OBJEXT) lib_a-pipe.$(OBJEXT) \
+	lib_a-fdman.$(OBJEXT) lib_a-select.$(OBJEXT) \
+	lib_a-syscalls.$(OBJEXT) lib_a-interrupt.$(OBJEXT)
 lib_a_OBJECTS = $(am_lib_a_OBJECTS)
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp =
@@ -187,6 +188,7 @@ pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -227,7 +229,9 @@ lib_a_SOURCES = libcglue.c socket.c pspcwd.c xprintf.c netdb.c pipe.c fdman.c se
 lib_a_LIBADD = $(LIBCGLUE_MULT_OBJS) $(SOCKET_MULT_OBJS) $(XPRINTF_MULT_OBJS) \
                 $(NETDB_MULT_OBJS) $(PIPE_OBJS) $(FDMAN_OBJS) $(SELECT_OBJS) $(INTERRUPT_OBJS)
 
-ACLOCAL_AMFLAGS = -I ../../..
+lib_a_CCASFLAGS = $(AM_CCASFLAGS)
+lib_a_CFLAGS = $(AM_CFLAGS)
+ACLOCAL_AMFLAGS = -I ../../.. -I ../../../..
 CONFIG_STATUS_DEPENDENCIES = $(newlib_basedir)/configure.host
 all: all-am
 
@@ -287,11 +291,71 @@ distclean-compile:
 .S.obj:
 	$(CPPASCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
 
+lib_a-interrupt.o: interrupt.S
+	$(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CCASFLAGS) $(CCASFLAGS) -c -o lib_a-interrupt.o `test -f 'interrupt.S' || echo '$(srcdir)/'`interrupt.S
+
+lib_a-interrupt.obj: interrupt.S
+	$(CCAS) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CCASFLAGS) $(CCASFLAGS) -c -o lib_a-interrupt.obj `if test -f 'interrupt.S'; then $(CYGPATH_W) 'interrupt.S'; else $(CYGPATH_W) '$(srcdir)/interrupt.S'; fi`
+
 .c.o:
 	$(COMPILE) -c $<
 
 .c.obj:
 	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+
+lib_a-libcglue.o: libcglue.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-libcglue.o `test -f 'libcglue.c' || echo '$(srcdir)/'`libcglue.c
+
+lib_a-libcglue.obj: libcglue.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-libcglue.obj `if test -f 'libcglue.c'; then $(CYGPATH_W) 'libcglue.c'; else $(CYGPATH_W) '$(srcdir)/libcglue.c'; fi`
+
+lib_a-socket.o: socket.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-socket.o `test -f 'socket.c' || echo '$(srcdir)/'`socket.c
+
+lib_a-socket.obj: socket.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-socket.obj `if test -f 'socket.c'; then $(CYGPATH_W) 'socket.c'; else $(CYGPATH_W) '$(srcdir)/socket.c'; fi`
+
+lib_a-pspcwd.o: pspcwd.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pspcwd.o `test -f 'pspcwd.c' || echo '$(srcdir)/'`pspcwd.c
+
+lib_a-pspcwd.obj: pspcwd.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pspcwd.obj `if test -f 'pspcwd.c'; then $(CYGPATH_W) 'pspcwd.c'; else $(CYGPATH_W) '$(srcdir)/pspcwd.c'; fi`
+
+lib_a-xprintf.o: xprintf.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-xprintf.o `test -f 'xprintf.c' || echo '$(srcdir)/'`xprintf.c
+
+lib_a-xprintf.obj: xprintf.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-xprintf.obj `if test -f 'xprintf.c'; then $(CYGPATH_W) 'xprintf.c'; else $(CYGPATH_W) '$(srcdir)/xprintf.c'; fi`
+
+lib_a-netdb.o: netdb.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-netdb.o `test -f 'netdb.c' || echo '$(srcdir)/'`netdb.c
+
+lib_a-netdb.obj: netdb.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-netdb.obj `if test -f 'netdb.c'; then $(CYGPATH_W) 'netdb.c'; else $(CYGPATH_W) '$(srcdir)/netdb.c'; fi`
+
+lib_a-pipe.o: pipe.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pipe.o `test -f 'pipe.c' || echo '$(srcdir)/'`pipe.c
+
+lib_a-pipe.obj: pipe.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-pipe.obj `if test -f 'pipe.c'; then $(CYGPATH_W) 'pipe.c'; else $(CYGPATH_W) '$(srcdir)/pipe.c'; fi`
+
+lib_a-fdman.o: fdman.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fdman.o `test -f 'fdman.c' || echo '$(srcdir)/'`fdman.c
+
+lib_a-fdman.obj: fdman.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-fdman.obj `if test -f 'fdman.c'; then $(CYGPATH_W) 'fdman.c'; else $(CYGPATH_W) '$(srcdir)/fdman.c'; fi`
+
+lib_a-select.o: select.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-select.o `test -f 'select.c' || echo '$(srcdir)/'`select.c
+
+lib_a-select.obj: select.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-select.obj `if test -f 'select.c'; then $(CYGPATH_W) 'select.c'; else $(CYGPATH_W) '$(srcdir)/select.c'; fi`
+
+lib_a-syscalls.o: syscalls.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.o `test -f 'syscalls.c' || echo '$(srcdir)/'`syscalls.c
+
+lib_a-syscalls.obj: syscalls.c
+	$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(lib_a_CFLAGS) $(CFLAGS) -c -o lib_a-syscalls.obj `if test -f 'syscalls.c'; then $(CYGPATH_W) 'syscalls.c'; else $(CYGPATH_W) '$(srcdir)/syscalls.c'; fi`
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \

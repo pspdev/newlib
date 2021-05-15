@@ -40,6 +40,8 @@ NETDB_MULT_OBJS = h_errno.o gethostbyaddr.o gethostbyname.o
 lib_a_SOURCES = libcglue.c socket.c pspcwd.c xprintf.c netdb.c pipe.c fdman.c select.c syscalls.c interrupt.S
 lib_a_LIBADD  = $(LIBCGLUE_MULT_OBJS) $(SOCKET_MULT_OBJS) $(XPRINTF_MULT_OBJS) \
                 $(NETDB_MULT_OBJS) $(PIPE_OBJS) $(FDMAN_OBJS) $(SELECT_OBJS) $(INTERRUPT_OBJS)
+lib_a_CCASFLAGS = $(AM_CCASFLAGS)
+lib_a_CFLAGS = $(AM_CFLAGS)
 
 all: crt0.o
 
@@ -67,5 +69,5 @@ $(SELECT_OBJS): select.c
 $(INTERRUPT_OBJS): interrupt.S
 	$(COMPILE) -DF_$* $< -c -o $@
 
-ACLOCAL_AMFLAGS = -I ../../..
+ACLOCAL_AMFLAGS = -I ../../.. -I ../../../..
 CONFIG_STATUS_DEPENDENCIES = $(newlib_basedir)/configure.host
