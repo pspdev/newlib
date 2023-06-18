@@ -787,6 +787,8 @@ HAVE_LIBC_SYS_RTEMS_DIR_FALSE
 HAVE_LIBC_SYS_RTEMS_DIR_TRUE
 HAVE_LIBC_SYS_RDOS_DIR_FALSE
 HAVE_LIBC_SYS_RDOS_DIR_TRUE
+HAVE_LIBC_SYS_PSP_DIR_FALSE
+HAVE_LIBC_SYS_PSP_DIR_TRUE
 HAVE_LIBC_SYS_OR1K_DIR_FALSE
 HAVE_LIBC_SYS_OR1K_DIR_TRUE
 HAVE_LIBC_SYS_NETWARE_DIR_FALSE
@@ -5423,6 +5425,13 @@ else
   HAVE_LIBC_SYS_OR1K_DIR_TRUE='#'
   HAVE_LIBC_SYS_OR1K_DIR_FALSE=
 fi
+ if test "${sys_dir}" = psp; then
+  HAVE_LIBC_SYS_PSP_DIR_TRUE=
+  HAVE_LIBC_SYS_PSP_DIR_FALSE='#'
+else
+  HAVE_LIBC_SYS_PSP_DIR_TRUE='#'
+  HAVE_LIBC_SYS_PSP_DIR_FALSE=
+fi
  if test "${sys_dir}" = rdos; then
   HAVE_LIBC_SYS_RDOS_DIR_TRUE=
   HAVE_LIBC_SYS_RDOS_DIR_FALSE='#'
@@ -7559,6 +7568,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_LIBC_SYS_OR1K_DIR_TRUE}" && test -z "${HAVE_LIBC_SYS_OR1K_DIR_FALSE}"; then
   as_fn_error $? "conditional \"HAVE_LIBC_SYS_OR1K_DIR\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_LIBC_SYS_PSP_DIR_TRUE}" && test -z "${HAVE_LIBC_SYS_PSP_DIR_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_LIBC_SYS_PSP_DIR\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HAVE_LIBC_SYS_RDOS_DIR_TRUE}" && test -z "${HAVE_LIBC_SYS_RDOS_DIR_FALSE}"; then
