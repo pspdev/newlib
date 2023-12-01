@@ -94,10 +94,10 @@ longjmp:
 	lwc1    $f30, O_F30($a0)
 	lwc1    $f31, O_F31($a0)
 
-	bne	$a0, $0, 1f
-	li	$a0, 1
+	bne	$a1, $0, 1f
+	li	$a1, 1
 1:
-	move	$v0, $a0
+	move	$v0, $a1
 
 	jr	$ra
 
