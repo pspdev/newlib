@@ -534,7 +534,7 @@ case "${host}" in
   mips*-psp-*)
   	sys_dir=psp
   	posix_dir=posix
-  	newlib_cflags="${newlib_cflags} -DHAVE_NANOSLEEP -DHAVE_RENAME -DHAVE_FCNTL -D_NO_POSIX_SPAWN -D_NO_EXECVE -DNO_EXEC"
+  	newlib_cflags="${newlib_cflags} -DHAVE_NANOSLEEP -DHAVE_RENAME -DHAVE_FCNTL -D_NO_POSIX_SPAWN"
 	;;
   mmix-knuth-mmixware)
 	sys_dir=mmixware
