@@ -8,6 +8,7 @@ typedef struct __dirdesc {
     char *dd_buf;	/* buffer */
     int dd_len;		/* buffer length */
     int dd_size;	/* amount of data in buffer */
+    void *dd_lock;	/* lock */
 } DIR;
 
 # define __dirfd(dp)	((dp)->dd_fd)
