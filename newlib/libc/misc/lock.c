@@ -81,7 +81,9 @@ subroutines are required for linking multi-threaded applications.
 
 /* dummy lock routines and static locks for single-threaded apps */
 
-#ifndef __SINGLE_THREAD__
+#include <newlib.h>
+
+#if defined(__SINGLE_THREAD__)
 
 #include <sys/lock.h>
 
