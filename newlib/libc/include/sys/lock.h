@@ -41,7 +41,7 @@ typedef struct __lock * _LOCK_T;
 extern void __retarget_lock_init(_LOCK_T *lock);
 #define __lock_init(lock) __retarget_lock_init(&lock)
 extern void __retarget_lock_init_recursive(_LOCK_T *lock);
-#define __lock_init_recursive(lock) __retarget_lock_init_recursive(&lock)
+#define __lock_init_recursive(lock) __retarget_lock_init_recursive((_LOCK_T*)&lock)
 extern void __retarget_lock_close(_LOCK_T lock);
 #define __lock_close(lock) __retarget_lock_close(lock)
 extern void __retarget_lock_close_recursive(_LOCK_T lock);
