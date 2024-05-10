@@ -25,12 +25,18 @@
 
 #include <ftw.h>
 
+/* Static callback pointer to maintain the ftw callback between calls */
+static int (*ftw_callback)(const char *, const struct stat *, int);
+
+static int ftw_wrapper(const char *fpath, const struct stat *sb, int typeflag, struct FTW *ftwbuf)
+{
+	return ftw_callback(fpath, sb, typeflag);
+}
+
 int ftw(const char *path, int (*fn)(const char *, const struct stat *, int), int fd_limit)
 {
-	/* The following cast assumes that calling a function with one
-	 * argument more than it needs behaves as expected. This is
-	 * actually undefined, but works on all real-world machines. */
-	return nftw(path, (int (*)())fn, fd_limit, FTW_PHYS);
+	ftw_callback = fn;
+	return nftw(path, ftw_wrapper, fd_limit, FTW_PHYS);
 }
 
 #endif /* ! HAVE_OPENDIR */
