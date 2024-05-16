@@ -123,23 +123,23 @@ scandir(const char *dirname, struct dirent ***namelist,
 		}
 		names[numitems++] = p;
 	}
+#ifdef HAVE_DD_LOCK
+	__lock_release_recursive(dirp->dd_lock);
+#endif
 	closedir(dirp);
 	if (numitems && dcomp != NULL)
 		qsort(names, numitems, sizeof(struct dirent *), (void *)dcomp);
 	*namelist = names;
-#ifdef HAVE_DD_LOCK
-	__lock_release_recursive(dirp->dd_lock);
-#endif
 	return (numitems);
 
 fail:
 	while (numitems > 0)
 		free(names[--numitems]);
 	free(names);
-	closedir(dirp);
 #ifdef HAVE_DD_LOCK
 	__lock_release_recursive(dirp->dd_lock);
 #endif
+	closedir(dirp);
 	return (-1);
 }
 
