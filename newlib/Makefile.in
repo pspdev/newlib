@@ -585,30 +585,31 @@ check_PROGRAMS =
 @HAVE_LIBC_SYS_NETWARE_DIR_TRUE@	libc/sys/netware/link.c
 
 @HAVE_LIBC_SYS_OR1K_DIR_TRUE@am__append_53 = libc/sys/or1k/getreent.S libc/sys/or1k/mlock.c
-@HAVE_LIBC_SYS_RDOS_DIR_TRUE@am__append_54 = \
+@HAVE_LIBC_SYS_PSP_DIR_TRUE@am__append_54 = libc/sys/psp/dummy.c
+@HAVE_LIBC_SYS_RDOS_DIR_TRUE@am__append_55 = \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/chown.c libc/sys/rdos/close.c libc/sys/rdos/execve.c libc/sys/rdos/fork.c libc/sys/rdos/fstat.c libc/sys/rdos/getenv.c \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/getpid.c libc/sys/rdos/gettod.c libc/sys/rdos/isatty.c libc/sys/rdos/kill.c libc/sys/rdos/link.c libc/sys/rdos/lseek.c libc/sys/rdos/open.c libc/sys/rdos/rdoshelp.c \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/rdos.S libc/sys/rdos/read.c libc/sys/rdos/readlink.c libc/sys/rdos/sbrk.c libc/sys/rdos/stat.c libc/sys/rdos/symlink.c libc/sys/rdos/times.c libc/sys/rdos/unlink.c \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/wait.c libc/sys/rdos/write.c
 
-@HAVE_LIBC_SYS_RTEMS_DIR_TRUE@am__append_55 = libc/sys/rtems/dummysys.c libc/sys/rtems/cpusetalloc.c libc/sys/rtems/cpusetfree.c
-@HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__append_56 = libc/sys/sh/syscalls.c libc/sys/sh/trap.S libc/sys/sh/creat.c libc/sys/sh/ftruncate.c libc/sys/sh/truncate.c
-@HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@am__append_57 = \
+@HAVE_LIBC_SYS_RTEMS_DIR_TRUE@am__append_56 = libc/sys/rtems/dummysys.c libc/sys/rtems/cpusetalloc.c libc/sys/rtems/cpusetfree.c
+@HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__append_57 = libc/sys/sh/syscalls.c libc/sys/sh/trap.S libc/sys/sh/creat.c libc/sys/sh/ftruncate.c libc/sys/sh/truncate.c
+@HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@am__append_58 = \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/_exit.c libc/sys/sysmec/access.c libc/sys/sysmec/chmod.c libc/sys/sysmec/chown.c libc/sys/sysmec/close.c libc/sys/sysmec/creat.c libc/sys/sysmec/crt1.c \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/execv.c libc/sys/sysmec/execve.c libc/sys/sysmec/fork.c libc/sys/sysmec/fstat.c libc/sys/sysmec/getpid.c libc/sys/sysmec/isatty.c \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/kill.c libc/sys/sysmec/lseek.c libc/sys/sysmec/open.c libc/sys/sysmec/pipe.c libc/sys/sysmec/read.c \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/sbrk.c libc/sys/sysmec/stat.c libc/sys/sysmec/time.c libc/sys/sysmec/trap.S libc/sys/sysmec/unlink.c libc/sys/sysmec/utime.c libc/sys/sysmec/wait.c libc/sys/sysmec/write.c \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/times.c libc/sys/sysmec/gettime.c
 
-@HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@am__append_58 = libc/sys/sysnec810/io.S libc/sys/sysnec810/write.c libc/sys/sysnec810/sbrk.c libc/sys/sysnec810/misc.c
-@HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__append_59 = \
+@HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@am__append_59 = libc/sys/sysnec810/io.S libc/sys/sysnec810/write.c libc/sys/sysnec810/sbrk.c libc/sys/sysnec810/misc.c
+@HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__append_60 = \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/_exit.c libc/sys/sysnecv850/access.c libc/sys/sysnecv850/chmod.c libc/sys/sysnecv850/chown.c libc/sys/sysnecv850/close.c libc/sys/sysnecv850/creat.c libc/sys/sysnecv850/crt1.c \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/execv.c libc/sys/sysnecv850/execve.c libc/sys/sysnecv850/fork.c libc/sys/sysnecv850/fstat.c libc/sys/sysnecv850/getpid.c libc/sys/sysnecv850/isatty.c \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/kill.c libc/sys/sysnecv850/lseek.c libc/sys/sysnecv850/open.c libc/sys/sysnecv850/pipe.c libc/sys/sysnecv850/read.c libc/sys/sysnecv850/link.c \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/sbrk.c libc/sys/sysnecv850/stat.c libc/sys/sysnecv850/time.c libc/sys/sysnecv850/trap.S libc/sys/sysnecv850/unlink.c libc/sys/sysnecv850/utime.c libc/sys/sysnecv850/wait.c libc/sys/sysnecv850/write.c \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/times.c libc/sys/sysnecv850/gettime.c libc/sys/sysnecv850/rename.c
 
-@HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@am__append_60 = \
+@HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@am__append_61 = \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/ioctl.S libc/sys/sysvi386/isatty.c libc/sys/sysvi386/read.S libc/sys/sysvi386/lseek.S libc/sys/sysvi386/close.S libc/sys/sysvi386/sbrk.c libc/sys/sysvi386/fstat.S libc/sys/sysvi386/cerror.S \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/_exit.S libc/sys/sysvi386/write.S libc/sys/sysvi386/open.S libc/sys/sysvi386/signal.S libc/sys/sysvi386/kill.S libc/sys/sysvi386/getpid.S libc/sys/sysvi386/brk.S libc/sys/sysvi386/fork.S libc/sys/sysvi386/wait.S \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/execve.S libc/sys/sysvi386/exec.c libc/sys/sysvi386/utime.S libc/sys/sysvi386/fcntl.S libc/sys/sysvi386/chmod.S libc/sys/sysvi386/getuid.S libc/sys/sysvi386/getgid.S libc/sys/sysvi386/time.S \
@@ -619,13 +620,12 @@ check_PROGRAMS =
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/chdir.S libc/sys/sysvi386/dup2.c libc/sys/sysvi386/dup.c libc/sys/sysvi386/tcgetattr.c libc/sys/sysvi386/tcsetattr.c libc/sys/sysvi386/speed.c libc/sys/sysvi386/tcline.c \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/times.S libc/sys/sysvi386/pause.S libc/sys/sysvi386/sleep.c libc/sys/sysvi386/alarm.S libc/sys/sysvi386/access.S libc/sys/sysvi386/_longjmp.S libc/sys/sysvi386/_setjmp.S
 
-@HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@am__append_61 = \
+@HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@am__append_62 = \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/ioctl.S libc/sys/sysvnecv70/isatty.S libc/sys/sysvnecv70/read.S libc/sys/sysvnecv70/lseek.S libc/sys/sysvnecv70/close.S libc/sys/sysvnecv70/sbrk.S libc/sys/sysvnecv70/fstat.S \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/cerror.S libc/sys/sysvnecv70/exit.S libc/sys/sysvnecv70/write.S libc/sys/sysvnecv70/sysv60.S libc/sys/sysvnecv70/fpx.c libc/sys/sysvnecv70/fps.S libc/sys/sysvnecv70/open.S
 
-@HAVE_LIBC_SYS_TIRTOS_DIR_TRUE@am__append_62 = libc/sys/tirtos/lock.c
-@HAVE_LIBC_SYS_W65_DIR_TRUE@am__append_63 = libc/sys/w65/syscalls.c libc/sys/w65/trap.c
-@HAVE_LIBC_SYS_XTENSA_DIR_TRUE@am__append_64 = libc/sys/xtensa/creat.c libc/sys/xtensa/isatty.c libc/sys/xtensa/clibrary_init.c
+@HAVE_LIBC_SYS_TIRTOS_DIR_TRUE@am__append_63 = libc/sys/tirtos/lock.c
+@HAVE_LIBC_SYS_W65_DIR_TRUE@am__append_64 = libc/sys/w65/syscalls.c libc/sys/w65/trap.c
 @HAVE_LIBC_SYS_Z8KSIM_DIR_TRUE@am__append_65 = libc/sys/z8ksim/glue.c
 @HAVE_LIBC_MACHINE_AARCH64_TRUE@am__append_66 = \
 @HAVE_LIBC_MACHINE_AARCH64_TRUE@	libc/machine/aarch64/memchr-stub.c \
@@ -1730,7 +1730,8 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_NETWARE_DIR_TRUE@	libc/sys/netware/libc_a-link.$(OBJEXT)
 @HAVE_LIBC_SYS_OR1K_DIR_TRUE@am__objects_64 = libc/sys/or1k/libc_a-getreent.$(OBJEXT) \
 @HAVE_LIBC_SYS_OR1K_DIR_TRUE@	libc/sys/or1k/libc_a-mlock.$(OBJEXT)
-@HAVE_LIBC_SYS_RDOS_DIR_TRUE@am__objects_65 = libc/sys/rdos/libc_a-chown.$(OBJEXT) \
+@HAVE_LIBC_SYS_PSP_DIR_TRUE@am__objects_65 = libc/sys/psp/libc_a-dummy.$(OBJEXT)
+@HAVE_LIBC_SYS_RDOS_DIR_TRUE@am__objects_66 = libc/sys/rdos/libc_a-chown.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-close.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-execve.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-fork.$(OBJEXT) \
@@ -1754,15 +1755,15 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-unlink.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-wait.$(OBJEXT) \
 @HAVE_LIBC_SYS_RDOS_DIR_TRUE@	libc/sys/rdos/libc_a-write.$(OBJEXT)
-@HAVE_LIBC_SYS_RTEMS_DIR_TRUE@am__objects_66 = libc/sys/rtems/libc_a-dummysys.$(OBJEXT) \
+@HAVE_LIBC_SYS_RTEMS_DIR_TRUE@am__objects_67 = libc/sys/rtems/libc_a-dummysys.$(OBJEXT) \
 @HAVE_LIBC_SYS_RTEMS_DIR_TRUE@	libc/sys/rtems/libc_a-cpusetalloc.$(OBJEXT) \
 @HAVE_LIBC_SYS_RTEMS_DIR_TRUE@	libc/sys/rtems/libc_a-cpusetfree.$(OBJEXT)
-@HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__objects_67 = libc/sys/sh/libc_a-syscalls.$(OBJEXT) \
+@HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__objects_68 = libc/sys/sh/libc_a-syscalls.$(OBJEXT) \
 @HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sh/libc_a-trap.$(OBJEXT) \
 @HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sh/libc_a-creat.$(OBJEXT) \
 @HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sh/libc_a-ftruncate.$(OBJEXT) \
 @HAVE_LIBC_SYS_SH_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sh/libc_a-truncate.$(OBJEXT)
-@HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@am__objects_68 = libc/sys/sysmec/libc_a-_exit.$(OBJEXT) \
+@HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@am__objects_69 = libc/sys/sysmec/libc_a-_exit.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-access.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-chmod.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-chown.$(OBJEXT) \
@@ -1790,11 +1791,11 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-write.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-times.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSMEC_DIR_TRUE@	libc/sys/sysmec/libc_a-gettime.$(OBJEXT)
-@HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@am__objects_69 = libc/sys/sysnec810/libc_a-io.$(OBJEXT) \
+@HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@am__objects_70 = libc/sys/sysnec810/libc_a-io.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@	libc/sys/sysnec810/libc_a-write.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@	libc/sys/sysnec810/libc_a-sbrk.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNEC810_DIR_TRUE@	libc/sys/sysnec810/libc_a-misc.$(OBJEXT)
-@HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__objects_70 = libc/sys/sysnecv850/libc_a-_exit.$(OBJEXT) \
+@HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@am__objects_71 = libc/sys/sysnecv850/libc_a-_exit.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-access.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-chmod.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-chown.$(OBJEXT) \
@@ -1824,7 +1825,7 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-times.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-gettime.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSNECV850_DIR_TRUE@@MAY_SUPPLY_SYSCALLS_TRUE@	libc/sys/sysnecv850/libc_a-rename.$(OBJEXT)
-@HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@am__objects_71 = libc/sys/sysvi386/libc_a-ioctl.$(OBJEXT) \
+@HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@am__objects_72 = libc/sys/sysvi386/libc_a-ioctl.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-isatty.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-read.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-lseek.$(OBJEXT) \
@@ -1887,7 +1888,7 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-access.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-_longjmp.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVI386_DIR_TRUE@	libc/sys/sysvi386/libc_a-_setjmp.$(OBJEXT)
-@HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@am__objects_72 = libc/sys/sysvnecv70/libc_a-ioctl.$(OBJEXT) \
+@HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@am__objects_73 = libc/sys/sysvnecv70/libc_a-ioctl.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-isatty.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-read.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-lseek.$(OBJEXT) \
@@ -1901,12 +1902,9 @@ am__objects_51 = libc/ssp/libc_a-chk_fail.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-fpx.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-fps.$(OBJEXT) \
 @HAVE_LIBC_SYS_SYSVNECV70_DIR_TRUE@	libc/sys/sysvnecv70/libc_a-open.$(OBJEXT)
-@HAVE_LIBC_SYS_TIRTOS_DIR_TRUE@am__objects_73 = libc/sys/tirtos/libc_a-lock.$(OBJEXT)
-@HAVE_LIBC_SYS_W65_DIR_TRUE@am__objects_74 = libc/sys/w65/libc_a-syscalls.$(OBJEXT) \
+@HAVE_LIBC_SYS_TIRTOS_DIR_TRUE@am__objects_74 = libc/sys/tirtos/libc_a-lock.$(OBJEXT)
+@HAVE_LIBC_SYS_W65_DIR_TRUE@am__objects_75 = libc/sys/w65/libc_a-syscalls.$(OBJEXT) \
 @HAVE_LIBC_SYS_W65_DIR_TRUE@	libc/sys/w65/libc_a-trap.$(OBJEXT)
-@HAVE_LIBC_SYS_XTENSA_DIR_TRUE@am__objects_75 = libc/sys/xtensa/libc_a-creat.$(OBJEXT) \
-@HAVE_LIBC_SYS_XTENSA_DIR_TRUE@	libc/sys/xtensa/libc_a-isatty.$(OBJEXT) \
-@HAVE_LIBC_SYS_XTENSA_DIR_TRUE@	libc/sys/xtensa/libc_a-clibrary_init.$(OBJEXT)
 @HAVE_LIBC_SYS_Z8KSIM_DIR_TRUE@am__objects_76 = libc/sys/z8ksim/libc_a-glue.$(OBJEXT)
 @HAVE_LIBC_MACHINE_AARCH64_TRUE@am__objects_77 = libc/machine/aarch64/libc_a-memchr-stub.$(OBJEXT) \
 @HAVE_LIBC_MACHINE_AARCH64_TRUE@	libc/machine/aarch64/libc_a-memchr.$(OBJEXT) \
@@ -5349,7 +5347,7 @@ all: newlib.h _newlib_version.h
 .SUFFIXES: .def .xml .S .c .dvi .o .obj .ps .s
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../multilib.am $(srcdir)/doc/Makefile.inc $(srcdir)/libc/Makefile.inc $(srcdir)/libc/argz/Makefile.inc $(srcdir)/libc/stdlib/Makefile.inc $(srcdir)/libc/ctype/Makefile.inc $(srcdir)/libc/search/Makefile.inc $(srcdir)/libc/stdio/Makefile.inc $(srcdir)/libc/stdio64/Makefile.inc $(srcdir)/libc/string/Makefile.inc $(srcdir)/libc/signal/Makefile.inc $(srcdir)/libc/time/Makefile.inc $(srcdir)/libc/locale/Makefile.inc $(srcdir)/libc/reent/Makefile.inc $(srcdir)/libc/errno/Makefile.inc $(srcdir)/libc/misc/Makefile.inc $(srcdir)/libc/unix/Makefile.inc $(srcdir)/libc/posix/Makefile.inc $(srcdir)/libc/syscalls/Makefile.inc $(srcdir)/libc/iconv/Makefile.inc $(srcdir)/libc/iconv/ces/Makefile.inc $(srcdir)/libc/iconv/ccs/Makefile.inc $(srcdir)/libc/iconv/ccs/binary/Makefile.inc $(srcdir)/libc/iconv/lib/Makefile.inc $(srcdir)/libc/xdr/Makefile.inc $(srcdir)/libc/ssp/Makefile.inc $(srcdir)/libc/sys/Makefile.inc $(srcdir)/libc/sys/a29khif/Makefile.inc $(srcdir)/libc/sys/amdgcn/Makefile.inc $(srcdir)/libc/sys/arm/Makefile.inc $(srcdir)/libc/sys/d10v/Makefile.inc $(srcdir)/libc/sys/epiphany/Makefile.inc $(srcdir)/libc/sys/h8300hms/Makefile.inc $(srcdir)/libc/sys/h8500hms/Makefile.inc $(srcdir)/libc/sys/m88kbug/Makefile.inc $(srcdir)/libc/sys/mmixware/Makefile.inc $(srcdir)/libc/sys/netware/Makefile.inc $(srcdir)/libc/sys/or1k/Makefile.inc $(srcdir)/libc/sys/rdos/Makefile.inc $(srcdir)/libc/sys/rtems/Makefile.inc $(srcdir)/libc/sys/sh/Makefile.inc $(srcdir)/libc/sys/sysmec/Makefile.inc $(srcdir)/libc/sys/sysnec810/Makefile.inc $(srcdir)/libc/sys/sysnecv850/Makefile.inc $(srcdir)/libc/sys/sysvi386/Makefile.inc $(srcdir)/libc/sys/sysvnecv70/Makefile.inc $(srcdir)/libc/sys/tic80/Makefile.inc $(srcdir)/libc/sys/tirtos/Makefile.inc $(srcdir)/libc/sys/w65/Makefile.inc $(srcdir)/libc/sys/xtensa/Makefile.inc $(srcdir)/libc/sys/z8ksim/Makefile.inc $(srcdir)/libc/machine/Makefile.inc $(srcdir)/libc/machine/aarch64/Makefile.inc $(srcdir)/libc/machine/amdgcn/Makefile.inc $(srcdir)/libc/machine/arc/Makefile.inc $(srcdir)/libc/machine/arc64/Makefile.inc $(srcdir)/libc/machine/arm/Makefile.inc $(srcdir)/libc/machine/bfin/Makefile.inc $(srcdir)/libc/machine/cr16/Makefile.inc $(srcdir)/libc/machine/cris/Makefile.inc $(srcdir)/libc/machine/crx/Makefile.inc $(srcdir)/libc/machine/csky/Makefile.inc $(srcdir)/libc/machine/d10v/Makefile.inc $(srcdir)/libc/machine/d30v/Makefile.inc $(srcdir)/libc/machine/epiphany/Makefile.inc $(srcdir)/libc/machine/fr30/Makefile.inc $(srcdir)/libc/machine/frv/Makefile.inc $(srcdir)/libc/machine/ft32/Makefile.inc $(srcdir)/libc/machine/h8300/Makefile.inc $(srcdir)/libc/machine/h8500/Makefile.inc $(srcdir)/libc/machine/hppa/Makefile.inc $(srcdir)/libc/machine/i386/Makefile.inc $(srcdir)/libc/machine/i960/Makefile.inc $(srcdir)/libc/machine/iq2000/Makefile.inc $(srcdir)/libc/machine/lm32/Makefile.inc $(srcdir)/libc/machine/m32c/Makefile.inc $(srcdir)/libc/machine/m32r/Makefile.inc $(srcdir)/libc/machine/m68hc11/Makefile.inc $(srcdir)/libc/machine/m68k/Makefile.inc $(srcdir)/libc/machine/m88k/Makefile.inc $(srcdir)/libc/machine/mep/Makefile.inc $(srcdir)/libc/machine/microblaze/Makefile.inc $(srcdir)/libc/machine/mips/Makefile.inc $(srcdir)/libc/machine/mn10200/Makefile.inc $(srcdir)/libc/machine/mn10300/Makefile.inc $(srcdir)/libc/machine/moxie/Makefile.inc $(srcdir)/libc/machine/msp430/Makefile.inc $(srcdir)/libc/machine/mt/Makefile.inc $(srcdir)/libc/machine/nds32/Makefile.inc $(srcdir)/libc/machine/necv70/Makefile.inc $(srcdir)/libc/machine/nios2/Makefile.inc $(srcdir)/libc/machine/nvptx/Makefile.inc $(srcdir)/libc/machine/or1k/Makefile.inc $(srcdir)/libc/machine/powerpc/Makefile.inc $(srcdir)/libc/machine/pru/Makefile.inc $(srcdir)/libc/machine/riscv/Makefile.inc $(srcdir)/libc/machine/rl78/Makefile.inc $(srcdir)/libc/machine/rx/Makefile.inc $(srcdir)/libc/machine/sh/Makefile.inc $(srcdir)/libc/machine/sparc/Makefile.inc $(srcdir)/libc/machine/spu/Makefile.inc $(srcdir)/libc/machine/tic4x/Makefile.inc $(srcdir)/libc/machine/tic6x/Makefile.inc $(srcdir)/libc/machine/tic80/Makefile.inc $(srcdir)/libc/machine/v850/Makefile.inc $(srcdir)/libc/machine/visium/Makefile.inc $(srcdir)/libc/machine/w65/Makefile.inc $(srcdir)/libc/machine/x86_64/Makefile.inc $(srcdir)/libc/machine/xc16x/Makefile.inc $(srcdir)/libc/machine/xstormy16/Makefile.inc $(srcdir)/libc/machine/xtensa/Makefile.inc $(srcdir)/libc/machine/z8k/Makefile.inc $(srcdir)/libm/Makefile.inc $(srcdir)/libm/mathfp/Makefile.inc $(srcdir)/libm/math/Makefile.inc $(srcdir)/libm/common/Makefile.inc $(srcdir)/libm/ld/Makefile.inc $(srcdir)/libm/complex/Makefile.inc $(srcdir)/libm/fenv/Makefile.inc $(srcdir)/libm/test/Makefile.inc $(srcdir)/libm/machine/aarch64/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/amdgcn/Makefile.inc $(srcdir)/libm/machine/arm/Makefile.inc $(srcdir)/libm/machine/i386/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/mips/Makefile.inc $(srcdir)/libm/machine/nds32/Makefile.inc $(srcdir)/libm/machine/powerpc/Makefile.inc $(srcdir)/libm/machine/pru/Makefile.inc $(srcdir)/libm/machine/sparc/Makefile.inc $(srcdir)/libm/machine/spu/Makefile.inc $(srcdir)/libm/machine/riscv/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/x86_64/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/xtensa/Makefile.inc $(am__configure_deps)
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am $(srcdir)/../multilib.am $(srcdir)/doc/Makefile.inc $(srcdir)/libc/Makefile.inc $(srcdir)/libc/argz/Makefile.inc $(srcdir)/libc/stdlib/Makefile.inc $(srcdir)/libc/ctype/Makefile.inc $(srcdir)/libc/search/Makefile.inc $(srcdir)/libc/stdio/Makefile.inc $(srcdir)/libc/stdio64/Makefile.inc $(srcdir)/libc/string/Makefile.inc $(srcdir)/libc/signal/Makefile.inc $(srcdir)/libc/time/Makefile.inc $(srcdir)/libc/locale/Makefile.inc $(srcdir)/libc/reent/Makefile.inc $(srcdir)/libc/errno/Makefile.inc $(srcdir)/libc/misc/Makefile.inc $(srcdir)/libc/unix/Makefile.inc $(srcdir)/libc/posix/Makefile.inc $(srcdir)/libc/syscalls/Makefile.inc $(srcdir)/libc/iconv/Makefile.inc $(srcdir)/libc/iconv/ces/Makefile.inc $(srcdir)/libc/iconv/ccs/Makefile.inc $(srcdir)/libc/iconv/ccs/binary/Makefile.inc $(srcdir)/libc/iconv/lib/Makefile.inc $(srcdir)/libc/xdr/Makefile.inc $(srcdir)/libc/ssp/Makefile.inc $(srcdir)/libc/sys/Makefile.inc $(srcdir)/libc/sys/a29khif/Makefile.inc $(srcdir)/libc/sys/amdgcn/Makefile.inc $(srcdir)/libc/sys/arm/Makefile.inc $(srcdir)/libc/sys/d10v/Makefile.inc $(srcdir)/libc/sys/epiphany/Makefile.inc $(srcdir)/libc/sys/h8300hms/Makefile.inc $(srcdir)/libc/sys/h8500hms/Makefile.inc $(srcdir)/libc/sys/m88kbug/Makefile.inc $(srcdir)/libc/sys/mmixware/Makefile.inc $(srcdir)/libc/sys/netware/Makefile.inc $(srcdir)/libc/sys/or1k/Makefile.inc $(srcdir)/libc/sys/psp/Makefile.inc $(srcdir)/libc/sys/rdos/Makefile.inc $(srcdir)/libc/sys/rtems/Makefile.inc $(srcdir)/libc/sys/sh/Makefile.inc $(srcdir)/libc/sys/sysmec/Makefile.inc $(srcdir)/libc/sys/sysnec810/Makefile.inc $(srcdir)/libc/sys/sysnecv850/Makefile.inc $(srcdir)/libc/sys/sysvi386/Makefile.inc $(srcdir)/libc/sys/sysvnecv70/Makefile.inc $(srcdir)/libc/sys/tic80/Makefile.inc $(srcdir)/libc/sys/tirtos/Makefile.inc $(srcdir)/libc/sys/w65/Makefile.inc $(srcdir)/libc/sys/z8ksim/Makefile.inc $(srcdir)/libc/machine/Makefile.inc $(srcdir)/libc/machine/aarch64/Makefile.inc $(srcdir)/libc/machine/amdgcn/Makefile.inc $(srcdir)/libc/machine/arc/Makefile.inc $(srcdir)/libc/machine/arc64/Makefile.inc $(srcdir)/libc/machine/arm/Makefile.inc $(srcdir)/libc/machine/bfin/Makefile.inc $(srcdir)/libc/machine/cr16/Makefile.inc $(srcdir)/libc/machine/cris/Makefile.inc $(srcdir)/libc/machine/crx/Makefile.inc $(srcdir)/libc/machine/csky/Makefile.inc $(srcdir)/libc/machine/d10v/Makefile.inc $(srcdir)/libc/machine/d30v/Makefile.inc $(srcdir)/libc/machine/epiphany/Makefile.inc $(srcdir)/libc/machine/fr30/Makefile.inc $(srcdir)/libc/machine/frv/Makefile.inc $(srcdir)/libc/machine/ft32/Makefile.inc $(srcdir)/libc/machine/h8300/Makefile.inc $(srcdir)/libc/machine/h8500/Makefile.inc $(srcdir)/libc/machine/hppa/Makefile.inc $(srcdir)/libc/machine/i386/Makefile.inc $(srcdir)/libc/machine/i960/Makefile.inc $(srcdir)/libc/machine/iq2000/Makefile.inc $(srcdir)/libc/machine/lm32/Makefile.inc $(srcdir)/libc/machine/m32c/Makefile.inc $(srcdir)/libc/machine/m32r/Makefile.inc $(srcdir)/libc/machine/m68hc11/Makefile.inc $(srcdir)/libc/machine/m68k/Makefile.inc $(srcdir)/libc/machine/m88k/Makefile.inc $(srcdir)/libc/machine/mep/Makefile.inc $(srcdir)/libc/machine/microblaze/Makefile.inc $(srcdir)/libc/machine/mips/Makefile.inc $(srcdir)/libc/machine/mn10200/Makefile.inc $(srcdir)/libc/machine/mn10300/Makefile.inc $(srcdir)/libc/machine/moxie/Makefile.inc $(srcdir)/libc/machine/msp430/Makefile.inc $(srcdir)/libc/machine/mt/Makefile.inc $(srcdir)/libc/machine/nds32/Makefile.inc $(srcdir)/libc/machine/necv70/Makefile.inc $(srcdir)/libc/machine/nios2/Makefile.inc $(srcdir)/libc/machine/nvptx/Makefile.inc $(srcdir)/libc/machine/or1k/Makefile.inc $(srcdir)/libc/machine/powerpc/Makefile.inc $(srcdir)/libc/machine/pru/Makefile.inc $(srcdir)/libc/machine/riscv/Makefile.inc $(srcdir)/libc/machine/rl78/Makefile.inc $(srcdir)/libc/machine/rx/Makefile.inc $(srcdir)/libc/machine/sh/Makefile.inc $(srcdir)/libc/machine/sparc/Makefile.inc $(srcdir)/libc/machine/spu/Makefile.inc $(srcdir)/libc/machine/tic4x/Makefile.inc $(srcdir)/libc/machine/tic6x/Makefile.inc $(srcdir)/libc/machine/tic80/Makefile.inc $(srcdir)/libc/machine/v850/Makefile.inc $(srcdir)/libc/machine/visium/Makefile.inc $(srcdir)/libc/machine/w65/Makefile.inc $(srcdir)/libc/machine/x86_64/Makefile.inc $(srcdir)/libc/machine/xc16x/Makefile.inc $(srcdir)/libc/machine/xstormy16/Makefile.inc $(srcdir)/libc/machine/xtensa/Makefile.inc $(srcdir)/libc/machine/z8k/Makefile.inc $(srcdir)/libm/Makefile.inc $(srcdir)/libm/mathfp/Makefile.inc $(srcdir)/libm/math/Makefile.inc $(srcdir)/libm/common/Makefile.inc $(srcdir)/libm/ld/Makefile.inc $(srcdir)/libm/complex/Makefile.inc $(srcdir)/libm/fenv/Makefile.inc $(srcdir)/libm/test/Makefile.inc $(srcdir)/libm/machine/aarch64/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/amdgcn/Makefile.inc $(srcdir)/libm/machine/arm/Makefile.inc $(srcdir)/libm/machine/i386/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/mips/Makefile.inc $(srcdir)/libm/machine/nds32/Makefile.inc $(srcdir)/libm/machine/powerpc/Makefile.inc $(srcdir)/libm/machine/pru/Makefile.inc $(srcdir)/libm/machine/sparc/Makefile.inc $(srcdir)/libm/machine/spu/Makefile.inc $(srcdir)/libm/machine/riscv/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/x86_64/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/xtensa/Makefile.inc $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -5371,7 +5369,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/../multilib.am $(srcdir)/doc/Makefile.inc $(srcdir)/libc/Makefile.inc $(srcdir)/libc/argz/Makefile.inc $(srcdir)/libc/stdlib/Makefile.inc $(srcdir)/libc/ctype/Makefile.inc $(srcdir)/libc/search/Makefile.inc $(srcdir)/libc/stdio/Makefile.inc $(srcdir)/libc/stdio64/Makefile.inc $(srcdir)/libc/string/Makefile.inc $(srcdir)/libc/signal/Makefile.inc $(srcdir)/libc/time/Makefile.inc $(srcdir)/libc/locale/Makefile.inc $(srcdir)/libc/reent/Makefile.inc $(srcdir)/libc/errno/Makefile.inc $(srcdir)/libc/misc/Makefile.inc $(srcdir)/libc/unix/Makefile.inc $(srcdir)/libc/posix/Makefile.inc $(srcdir)/libc/syscalls/Makefile.inc $(srcdir)/libc/iconv/Makefile.inc $(srcdir)/libc/iconv/ces/Makefile.inc $(srcdir)/libc/iconv/ccs/Makefile.inc $(srcdir)/libc/iconv/ccs/binary/Makefile.inc $(srcdir)/libc/iconv/lib/Makefile.inc $(srcdir)/libc/xdr/Makefile.inc $(srcdir)/libc/ssp/Makefile.inc $(srcdir)/libc/sys/Makefile.inc $(srcdir)/libc/sys/a29khif/Makefile.inc $(srcdir)/libc/sys/amdgcn/Makefile.inc $(srcdir)/libc/sys/arm/Makefile.inc $(srcdir)/libc/sys/d10v/Makefile.inc $(srcdir)/libc/sys/epiphany/Makefile.inc $(srcdir)/libc/sys/h8300hms/Makefile.inc $(srcdir)/libc/sys/h8500hms/Makefile.inc $(srcdir)/libc/sys/m88kbug/Makefile.inc $(srcdir)/libc/sys/mmixware/Makefile.inc $(srcdir)/libc/sys/netware/Makefile.inc $(srcdir)/libc/sys/or1k/Makefile.inc $(srcdir)/libc/sys/rdos/Makefile.inc $(srcdir)/libc/sys/rtems/Makefile.inc $(srcdir)/libc/sys/sh/Makefile.inc $(srcdir)/libc/sys/sysmec/Makefile.inc $(srcdir)/libc/sys/sysnec810/Makefile.inc $(srcdir)/libc/sys/sysnecv850/Makefile.inc $(srcdir)/libc/sys/sysvi386/Makefile.inc $(srcdir)/libc/sys/sysvnecv70/Makefile.inc $(srcdir)/libc/sys/tic80/Makefile.inc $(srcdir)/libc/sys/tirtos/Makefile.inc $(srcdir)/libc/sys/w65/Makefile.inc $(srcdir)/libc/sys/xtensa/Makefile.inc $(srcdir)/libc/sys/z8ksim/Makefile.inc $(srcdir)/libc/machine/Makefile.inc $(srcdir)/libc/machine/aarch64/Makefile.inc $(srcdir)/libc/machine/amdgcn/Makefile.inc $(srcdir)/libc/machine/arc/Makefile.inc $(srcdir)/libc/machine/arc64/Makefile.inc $(srcdir)/libc/machine/arm/Makefile.inc $(srcdir)/libc/machine/bfin/Makefile.inc $(srcdir)/libc/machine/cr16/Makefile.inc $(srcdir)/libc/machine/cris/Makefile.inc $(srcdir)/libc/machine/crx/Makefile.inc $(srcdir)/libc/machine/csky/Makefile.inc $(srcdir)/libc/machine/d10v/Makefile.inc $(srcdir)/libc/machine/d30v/Makefile.inc $(srcdir)/libc/machine/epiphany/Makefile.inc $(srcdir)/libc/machine/fr30/Makefile.inc $(srcdir)/libc/machine/frv/Makefile.inc $(srcdir)/libc/machine/ft32/Makefile.inc $(srcdir)/libc/machine/h8300/Makefile.inc $(srcdir)/libc/machine/h8500/Makefile.inc $(srcdir)/libc/machine/hppa/Makefile.inc $(srcdir)/libc/machine/i386/Makefile.inc $(srcdir)/libc/machine/i960/Makefile.inc $(srcdir)/libc/machine/iq2000/Makefile.inc $(srcdir)/libc/machine/lm32/Makefile.inc $(srcdir)/libc/machine/m32c/Makefile.inc $(srcdir)/libc/machine/m32r/Makefile.inc $(srcdir)/libc/machine/m68hc11/Makefile.inc $(srcdir)/libc/machine/m68k/Makefile.inc $(srcdir)/libc/machine/m88k/Makefile.inc $(srcdir)/libc/machine/mep/Makefile.inc $(srcdir)/libc/machine/microblaze/Makefile.inc $(srcdir)/libc/machine/mips/Makefile.inc $(srcdir)/libc/machine/mn10200/Makefile.inc $(srcdir)/libc/machine/mn10300/Makefile.inc $(srcdir)/libc/machine/moxie/Makefile.inc $(srcdir)/libc/machine/msp430/Makefile.inc $(srcdir)/libc/machine/mt/Makefile.inc $(srcdir)/libc/machine/nds32/Makefile.inc $(srcdir)/libc/machine/necv70/Makefile.inc $(srcdir)/libc/machine/nios2/Makefile.inc $(srcdir)/libc/machine/nvptx/Makefile.inc $(srcdir)/libc/machine/or1k/Makefile.inc $(srcdir)/libc/machine/powerpc/Makefile.inc $(srcdir)/libc/machine/pru/Makefile.inc $(srcdir)/libc/machine/riscv/Makefile.inc $(srcdir)/libc/machine/rl78/Makefile.inc $(srcdir)/libc/machine/rx/Makefile.inc $(srcdir)/libc/machine/sh/Makefile.inc $(srcdir)/libc/machine/sparc/Makefile.inc $(srcdir)/libc/machine/spu/Makefile.inc $(srcdir)/libc/machine/tic4x/Makefile.inc $(srcdir)/libc/machine/tic6x/Makefile.inc $(srcdir)/libc/machine/tic80/Makefile.inc $(srcdir)/libc/machine/v850/Makefile.inc $(srcdir)/libc/machine/visium/Makefile.inc $(srcdir)/libc/machine/w65/Makefile.inc $(srcdir)/libc/machine/x86_64/Makefile.inc $(srcdir)/libc/machine/xc16x/Makefile.inc $(srcdir)/libc/machine/xstormy16/Makefile.inc $(srcdir)/libc/machine/xtensa/Makefile.inc $(srcdir)/libc/machine/z8k/Makefile.inc $(srcdir)/libm/Makefile.inc $(srcdir)/libm/mathfp/Makefile.inc $(srcdir)/libm/math/Makefile.inc $(srcdir)/libm/common/Makefile.inc $(srcdir)/libm/ld/Makefile.inc $(srcdir)/libm/complex/Makefile.inc $(srcdir)/libm/fenv/Makefile.inc $(srcdir)/libm/test/Makefile.inc $(srcdir)/libm/machine/aarch64/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/amdgcn/Makefile.inc $(srcdir)/libm/machine/arm/Makefile.inc $(srcdir)/libm/machine/i386/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/mips/Makefile.inc $(srcdir)/libm/machine/nds32/Makefile.inc $(srcdir)/libm/machine/powerpc/Makefile.inc $(srcdir)/libm/machine/pru/Makefile.inc $(srcdir)/libm/machine/sparc/Makefile.inc $(srcdir)/libm/machine/spu/Makefile.inc $(srcdir)/libm/machine/riscv/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/x86_64/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/xtensa/Makefile.inc $(am__empty):
+$(srcdir)/../multilib.am $(srcdir)/doc/Makefile.inc $(srcdir)/libc/Makefile.inc $(srcdir)/libc/argz/Makefile.inc $(srcdir)/libc/stdlib/Makefile.inc $(srcdir)/libc/ctype/Makefile.inc $(srcdir)/libc/search/Makefile.inc $(srcdir)/libc/stdio/Makefile.inc $(srcdir)/libc/stdio64/Makefile.inc $(srcdir)/libc/string/Makefile.inc $(srcdir)/libc/signal/Makefile.inc $(srcdir)/libc/time/Makefile.inc $(srcdir)/libc/locale/Makefile.inc $(srcdir)/libc/reent/Makefile.inc $(srcdir)/libc/errno/Makefile.inc $(srcdir)/libc/misc/Makefile.inc $(srcdir)/libc/unix/Makefile.inc $(srcdir)/libc/posix/Makefile.inc $(srcdir)/libc/syscalls/Makefile.inc $(srcdir)/libc/iconv/Makefile.inc $(srcdir)/libc/iconv/ces/Makefile.inc $(srcdir)/libc/iconv/ccs/Makefile.inc $(srcdir)/libc/iconv/ccs/binary/Makefile.inc $(srcdir)/libc/iconv/lib/Makefile.inc $(srcdir)/libc/xdr/Makefile.inc $(srcdir)/libc/ssp/Makefile.inc $(srcdir)/libc/sys/Makefile.inc $(srcdir)/libc/sys/a29khif/Makefile.inc $(srcdir)/libc/sys/amdgcn/Makefile.inc $(srcdir)/libc/sys/arm/Makefile.inc $(srcdir)/libc/sys/d10v/Makefile.inc $(srcdir)/libc/sys/epiphany/Makefile.inc $(srcdir)/libc/sys/h8300hms/Makefile.inc $(srcdir)/libc/sys/h8500hms/Makefile.inc $(srcdir)/libc/sys/m88kbug/Makefile.inc $(srcdir)/libc/sys/mmixware/Makefile.inc $(srcdir)/libc/sys/netware/Makefile.inc $(srcdir)/libc/sys/or1k/Makefile.inc $(srcdir)/libc/sys/psp/Makefile.inc $(srcdir)/libc/sys/rdos/Makefile.inc $(srcdir)/libc/sys/rtems/Makefile.inc $(srcdir)/libc/sys/sh/Makefile.inc $(srcdir)/libc/sys/sysmec/Makefile.inc $(srcdir)/libc/sys/sysnec810/Makefile.inc $(srcdir)/libc/sys/sysnecv850/Makefile.inc $(srcdir)/libc/sys/sysvi386/Makefile.inc $(srcdir)/libc/sys/sysvnecv70/Makefile.inc $(srcdir)/libc/sys/tic80/Makefile.inc $(srcdir)/libc/sys/tirtos/Makefile.inc $(srcdir)/libc/sys/w65/Makefile.inc $(srcdir)/libc/sys/z8ksim/Makefile.inc $(srcdir)/libc/machine/Makefile.inc $(srcdir)/libc/machine/aarch64/Makefile.inc $(srcdir)/libc/machine/amdgcn/Makefile.inc $(srcdir)/libc/machine/arc/Makefile.inc $(srcdir)/libc/machine/arc64/Makefile.inc $(srcdir)/libc/machine/arm/Makefile.inc $(srcdir)/libc/machine/bfin/Makefile.inc $(srcdir)/libc/machine/cr16/Makefile.inc $(srcdir)/libc/machine/cris/Makefile.inc $(srcdir)/libc/machine/crx/Makefile.inc $(srcdir)/libc/machine/csky/Makefile.inc $(srcdir)/libc/machine/d10v/Makefile.inc $(srcdir)/libc/machine/d30v/Makefile.inc $(srcdir)/libc/machine/epiphany/Makefile.inc $(srcdir)/libc/machine/fr30/Makefile.inc $(srcdir)/libc/machine/frv/Makefile.inc $(srcdir)/libc/machine/ft32/Makefile.inc $(srcdir)/libc/machine/h8300/Makefile.inc $(srcdir)/libc/machine/h8500/Makefile.inc $(srcdir)/libc/machine/hppa/Makefile.inc $(srcdir)/libc/machine/i386/Makefile.inc $(srcdir)/libc/machine/i960/Makefile.inc $(srcdir)/libc/machine/iq2000/Makefile.inc $(srcdir)/libc/machine/lm32/Makefile.inc $(srcdir)/libc/machine/m32c/Makefile.inc $(srcdir)/libc/machine/m32r/Makefile.inc $(srcdir)/libc/machine/m68hc11/Makefile.inc $(srcdir)/libc/machine/m68k/Makefile.inc $(srcdir)/libc/machine/m88k/Makefile.inc $(srcdir)/libc/machine/mep/Makefile.inc $(srcdir)/libc/machine/microblaze/Makefile.inc $(srcdir)/libc/machine/mips/Makefile.inc $(srcdir)/libc/machine/mn10200/Makefile.inc $(srcdir)/libc/machine/mn10300/Makefile.inc $(srcdir)/libc/machine/moxie/Makefile.inc $(srcdir)/libc/machine/msp430/Makefile.inc $(srcdir)/libc/machine/mt/Makefile.inc $(srcdir)/libc/machine/nds32/Makefile.inc $(srcdir)/libc/machine/necv70/Makefile.inc $(srcdir)/libc/machine/nios2/Makefile.inc $(srcdir)/libc/machine/nvptx/Makefile.inc $(srcdir)/libc/machine/or1k/Makefile.inc $(srcdir)/libc/machine/powerpc/Makefile.inc $(srcdir)/libc/machine/pru/Makefile.inc $(srcdir)/libc/machine/riscv/Makefile.inc $(srcdir)/libc/machine/rl78/Makefile.inc $(srcdir)/libc/machine/rx/Makefile.inc $(srcdir)/libc/machine/sh/Makefile.inc $(srcdir)/libc/machine/sparc/Makefile.inc $(srcdir)/libc/machine/spu/Makefile.inc $(srcdir)/libc/machine/tic4x/Makefile.inc $(srcdir)/libc/machine/tic6x/Makefile.inc $(srcdir)/libc/machine/tic80/Makefile.inc $(srcdir)/libc/machine/v850/Makefile.inc $(srcdir)/libc/machine/visium/Makefile.inc $(srcdir)/libc/machine/w65/Makefile.inc $(srcdir)/libc/machine/x86_64/Makefile.inc $(srcdir)/libc/machine/xc16x/Makefile.inc $(srcdir)/libc/machine/xstormy16/Makefile.inc $(srcdir)/libc/machine/xtensa/Makefile.inc $(srcdir)/libc/machine/z8k/Makefile.inc $(srcdir)/libm/Makefile.inc $(srcdir)/libm/mathfp/Makefile.inc $(srcdir)/libm/math/Makefile.inc $(srcdir)/libm/common/Makefile.inc $(srcdir)/libm/ld/Makefile.inc $(srcdir)/libm/complex/Makefile.inc $(srcdir)/libm/fenv/Makefile.inc $(srcdir)/libm/test/Makefile.inc $(srcdir)/libm/machine/aarch64/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/amdgcn/Makefile.inc $(srcdir)/libm/machine/arm/Makefile.inc $(srcdir)/libm/machine/i386/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/mips/Makefile.inc $(srcdir)/libm/machine/nds32/Makefile.inc $(srcdir)/libm/machine/powerpc/Makefile.inc $(srcdir)/libm/machine/pru/Makefile.inc $(srcdir)/libm/machine/sparc/Makefile.inc $(srcdir)/libm/machine/spu/Makefile.inc $(srcdir)/libm/machine/riscv/Makefile.inc $(srcdir)/libm/ld128/Makefile.inc $(srcdir)/libm/machine/x86_64/Makefile.inc $(srcdir)/libm/ld80/Makefile.inc $(srcdir)/libm/machine/xtensa/Makefile.inc $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -7527,6 +7525,14 @@ libc/sys/or1k/libc_a-getreent.$(OBJEXT):  \
 	libc/sys/or1k/$(DEPDIR)/$(am__dirstamp)
 libc/sys/or1k/libc_a-mlock.$(OBJEXT): libc/sys/or1k/$(am__dirstamp) \
 	libc/sys/or1k/$(DEPDIR)/$(am__dirstamp)
+libc/sys/psp/$(am__dirstamp):
+	@$(MKDIR_P) libc/sys/psp
+	@: > libc/sys/psp/$(am__dirstamp)
+libc/sys/psp/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) libc/sys/psp/$(DEPDIR)
+	@: > libc/sys/psp/$(DEPDIR)/$(am__dirstamp)
+libc/sys/psp/libc_a-dummy.$(OBJEXT): libc/sys/psp/$(am__dirstamp) \
+	libc/sys/psp/$(DEPDIR)/$(am__dirstamp)
 libc/sys/rdos/$(am__dirstamp):
 	@$(MKDIR_P) libc/sys/rdos
 	@: > libc/sys/rdos/$(am__dirstamp)
@@ -8077,21 +8083,6 @@ libc/sys/w65/libc_a-syscalls.$(OBJEXT): libc/sys/w65/$(am__dirstamp) \
 	libc/sys/w65/$(DEPDIR)/$(am__dirstamp)
 libc/sys/w65/libc_a-trap.$(OBJEXT): libc/sys/w65/$(am__dirstamp) \
 	libc/sys/w65/$(DEPDIR)/$(am__dirstamp)
-libc/sys/xtensa/$(am__dirstamp):
-	@$(MKDIR_P) libc/sys/xtensa
-	@: > libc/sys/xtensa/$(am__dirstamp)
-libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) libc/sys/xtensa/$(DEPDIR)
-	@: > libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp)
-libc/sys/xtensa/libc_a-creat.$(OBJEXT):  \
-	libc/sys/xtensa/$(am__dirstamp) \
-	libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp)
-libc/sys/xtensa/libc_a-isatty.$(OBJEXT):  \
-	libc/sys/xtensa/$(am__dirstamp) \
-	libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp)
-libc/sys/xtensa/libc_a-clibrary_init.$(OBJEXT):  \
-	libc/sys/xtensa/$(am__dirstamp) \
-	libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp)
 libc/sys/z8ksim/$(am__dirstamp):
 	@$(MKDIR_P) libc/sys/z8ksim
 	@: > libc/sys/z8ksim/$(am__dirstamp)
@@ -12681,6 +12672,7 @@ mostlyclean-compile:
 	-rm -f libc/sys/mmixware/*.$(OBJEXT)
 	-rm -f libc/sys/netware/*.$(OBJEXT)
 	-rm -f libc/sys/or1k/*.$(OBJEXT)
+	-rm -f libc/sys/psp/*.$(OBJEXT)
 	-rm -f libc/sys/rdos/*.$(OBJEXT)
 	-rm -f libc/sys/rtems/*.$(OBJEXT)
 	-rm -f libc/sys/sh/*.$(OBJEXT)
@@ -12691,7 +12683,6 @@ mostlyclean-compile:
 	-rm -f libc/sys/sysvnecv70/*.$(OBJEXT)
 	-rm -f libc/sys/tirtos/*.$(OBJEXT)
 	-rm -f libc/sys/w65/*.$(OBJEXT)
-	-rm -f libc/sys/xtensa/*.$(OBJEXT)
 	-rm -f libc/sys/z8ksim/*.$(OBJEXT)
 	-rm -f libc/syscalls/*.$(OBJEXT)
 	-rm -f libc/time/*.$(OBJEXT)
@@ -14001,6 +13992,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/netware/$(DEPDIR)/libc_a-link.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/or1k/$(DEPDIR)/libc_a-getreent.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/or1k/$(DEPDIR)/libc_a-mlock.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@libc/sys/psp/$(DEPDIR)/libc_a-dummy.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/rdos/$(DEPDIR)/libc_a-chown.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/rdos/$(DEPDIR)/libc_a-close.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/rdos/$(DEPDIR)/libc_a-execve.Po@am__quote@
@@ -14174,9 +14166,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/tirtos/$(DEPDIR)/libc_a-lock.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/w65/$(DEPDIR)/libc_a-syscalls.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/w65/$(DEPDIR)/libc_a-trap.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/sys/z8ksim/$(DEPDIR)/libc_a-glue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/syscalls/$(DEPDIR)/libc_a-sysclose.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libc/syscalls/$(DEPDIR)/libc_a-sysexecve.Po@am__quote@
@@ -31840,6 +31829,20 @@ libc/sys/or1k/libc_a-mlock.obj: libc/sys/or1k/mlock.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/or1k/libc_a-mlock.obj `if test -f 'libc/sys/or1k/mlock.c'; then $(CYGPATH_W) 'libc/sys/or1k/mlock.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/or1k/mlock.c'; fi`
 
+libc/sys/psp/libc_a-dummy.o: libc/sys/psp/dummy.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/psp/libc_a-dummy.o -MD -MP -MF libc/sys/psp/$(DEPDIR)/libc_a-dummy.Tpo -c -o libc/sys/psp/libc_a-dummy.o `test -f 'libc/sys/psp/dummy.c' || echo '$(srcdir)/'`libc/sys/psp/dummy.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/psp/$(DEPDIR)/libc_a-dummy.Tpo libc/sys/psp/$(DEPDIR)/libc_a-dummy.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/psp/dummy.c' object='libc/sys/psp/libc_a-dummy.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/psp/libc_a-dummy.o `test -f 'libc/sys/psp/dummy.c' || echo '$(srcdir)/'`libc/sys/psp/dummy.c
+
+libc/sys/psp/libc_a-dummy.obj: libc/sys/psp/dummy.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/psp/libc_a-dummy.obj -MD -MP -MF libc/sys/psp/$(DEPDIR)/libc_a-dummy.Tpo -c -o libc/sys/psp/libc_a-dummy.obj `if test -f 'libc/sys/psp/dummy.c'; then $(CYGPATH_W) 'libc/sys/psp/dummy.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/psp/dummy.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/psp/$(DEPDIR)/libc_a-dummy.Tpo libc/sys/psp/$(DEPDIR)/libc_a-dummy.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/psp/dummy.c' object='libc/sys/psp/libc_a-dummy.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/psp/libc_a-dummy.obj `if test -f 'libc/sys/psp/dummy.c'; then $(CYGPATH_W) 'libc/sys/psp/dummy.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/psp/dummy.c'; fi`
+
 libc/sys/rdos/libc_a-chown.o: libc/sys/rdos/chown.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/rdos/libc_a-chown.o -MD -MP -MF libc/sys/rdos/$(DEPDIR)/libc_a-chown.Tpo -c -o libc/sys/rdos/libc_a-chown.o `test -f 'libc/sys/rdos/chown.c' || echo '$(srcdir)/'`libc/sys/rdos/chown.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/rdos/$(DEPDIR)/libc_a-chown.Tpo libc/sys/rdos/$(DEPDIR)/libc_a-chown.Po
@@ -33337,48 +33340,6 @@ libc/sys/w65/libc_a-trap.obj: libc/sys/w65/trap.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/w65/trap.c' object='libc/sys/w65/libc_a-trap.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/w65/libc_a-trap.obj `if test -f 'libc/sys/w65/trap.c'; then $(CYGPATH_W) 'libc/sys/w65/trap.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/w65/trap.c'; fi`
-
-libc/sys/xtensa/libc_a-creat.o: libc/sys/xtensa/creat.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-creat.o -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Tpo -c -o libc/sys/xtensa/libc_a-creat.o `test -f 'libc/sys/xtensa/creat.c' || echo '$(srcdir)/'`libc/sys/xtensa/creat.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/creat.c' object='libc/sys/xtensa/libc_a-creat.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-creat.o `test -f 'libc/sys/xtensa/creat.c' || echo '$(srcdir)/'`libc/sys/xtensa/creat.c
-
-libc/sys/xtensa/libc_a-creat.obj: libc/sys/xtensa/creat.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-creat.obj -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Tpo -c -o libc/sys/xtensa/libc_a-creat.obj `if test -f 'libc/sys/xtensa/creat.c'; then $(CYGPATH_W) 'libc/sys/xtensa/creat.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/creat.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-creat.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/creat.c' object='libc/sys/xtensa/libc_a-creat.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-creat.obj `if test -f 'libc/sys/xtensa/creat.c'; then $(CYGPATH_W) 'libc/sys/xtensa/creat.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/creat.c'; fi`
-
-libc/sys/xtensa/libc_a-isatty.o: libc/sys/xtensa/isatty.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-isatty.o -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Tpo -c -o libc/sys/xtensa/libc_a-isatty.o `test -f 'libc/sys/xtensa/isatty.c' || echo '$(srcdir)/'`libc/sys/xtensa/isatty.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/isatty.c' object='libc/sys/xtensa/libc_a-isatty.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-isatty.o `test -f 'libc/sys/xtensa/isatty.c' || echo '$(srcdir)/'`libc/sys/xtensa/isatty.c
-
-libc/sys/xtensa/libc_a-isatty.obj: libc/sys/xtensa/isatty.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-isatty.obj -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Tpo -c -o libc/sys/xtensa/libc_a-isatty.obj `if test -f 'libc/sys/xtensa/isatty.c'; then $(CYGPATH_W) 'libc/sys/xtensa/isatty.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/isatty.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-isatty.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/isatty.c' object='libc/sys/xtensa/libc_a-isatty.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-isatty.obj `if test -f 'libc/sys/xtensa/isatty.c'; then $(CYGPATH_W) 'libc/sys/xtensa/isatty.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/isatty.c'; fi`
-
-libc/sys/xtensa/libc_a-clibrary_init.o: libc/sys/xtensa/clibrary_init.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-clibrary_init.o -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Tpo -c -o libc/sys/xtensa/libc_a-clibrary_init.o `test -f 'libc/sys/xtensa/clibrary_init.c' || echo '$(srcdir)/'`libc/sys/xtensa/clibrary_init.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/clibrary_init.c' object='libc/sys/xtensa/libc_a-clibrary_init.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-clibrary_init.o `test -f 'libc/sys/xtensa/clibrary_init.c' || echo '$(srcdir)/'`libc/sys/xtensa/clibrary_init.c
-
-libc/sys/xtensa/libc_a-clibrary_init.obj: libc/sys/xtensa/clibrary_init.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/xtensa/libc_a-clibrary_init.obj -MD -MP -MF libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Tpo -c -o libc/sys/xtensa/libc_a-clibrary_init.obj `if test -f 'libc/sys/xtensa/clibrary_init.c'; then $(CYGPATH_W) 'libc/sys/xtensa/clibrary_init.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/clibrary_init.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Tpo libc/sys/xtensa/$(DEPDIR)/libc_a-clibrary_init.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libc/sys/xtensa/clibrary_init.c' object='libc/sys/xtensa/libc_a-clibrary_init.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -c -o libc/sys/xtensa/libc_a-clibrary_init.obj `if test -f 'libc/sys/xtensa/clibrary_init.c'; then $(CYGPATH_W) 'libc/sys/xtensa/clibrary_init.c'; else $(CYGPATH_W) '$(srcdir)/libc/sys/xtensa/clibrary_init.c'; fi`
 
 libc/sys/z8ksim/libc_a-glue.o: libc/sys/z8ksim/glue.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libc_a_CPPFLAGS) $(CPPFLAGS) $(libc_a_CFLAGS) $(CFLAGS) -MT libc/sys/z8ksim/libc_a-glue.o -MD -MP -MF libc/sys/z8ksim/$(DEPDIR)/libc_a-glue.Tpo -c -o libc/sys/z8ksim/libc_a-glue.o `test -f 'libc/sys/z8ksim/glue.c' || echo '$(srcdir)/'`libc/sys/z8ksim/glue.c
@@ -50639,6 +50600,8 @@ distclean-generic:
 	-rm -f libc/sys/netware/$(am__dirstamp)
 	-rm -f libc/sys/or1k/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libc/sys/or1k/$(am__dirstamp)
+	-rm -f libc/sys/psp/$(DEPDIR)/$(am__dirstamp)
+	-rm -f libc/sys/psp/$(am__dirstamp)
 	-rm -f libc/sys/rdos/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libc/sys/rdos/$(am__dirstamp)
 	-rm -f libc/sys/rtems/$(DEPDIR)/$(am__dirstamp)
@@ -50659,8 +50622,6 @@ distclean-generic:
 	-rm -f libc/sys/tirtos/$(am__dirstamp)
 	-rm -f libc/sys/w65/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libc/sys/w65/$(am__dirstamp)
-	-rm -f libc/sys/xtensa/$(DEPDIR)/$(am__dirstamp)
-	-rm -f libc/sys/xtensa/$(am__dirstamp)
 	-rm -f libc/sys/z8ksim/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libc/sys/z8ksim/$(am__dirstamp)
 	-rm -f libc/syscalls/$(DEPDIR)/$(am__dirstamp)
@@ -50727,7 +50688,7 @@ clean-am: clean-aminfo clean-checkPROGRAMS clean-generic clean-local \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf libc/argz/$(DEPDIR) libc/ctype/$(DEPDIR) libc/errno/$(DEPDIR) libc/iconv/ccs/$(DEPDIR) libc/iconv/ces/$(DEPDIR) libc/iconv/lib/$(DEPDIR) libc/locale/$(DEPDIR) libc/machine/aarch64/$(DEPDIR) libc/machine/amdgcn/$(DEPDIR) libc/machine/arc/$(DEPDIR) libc/machine/arc64/$(DEPDIR) libc/machine/arm/$(DEPDIR) libc/machine/bfin/$(DEPDIR) libc/machine/cr16/$(DEPDIR) libc/machine/cris/$(DEPDIR) libc/machine/crx/$(DEPDIR) libc/machine/csky/$(DEPDIR) libc/machine/d10v/$(DEPDIR) libc/machine/d30v/$(DEPDIR) libc/machine/epiphany/$(DEPDIR) libc/machine/fr30/$(DEPDIR) libc/machine/frv/$(DEPDIR) libc/machine/ft32/$(DEPDIR) libc/machine/h8300/$(DEPDIR) libc/machine/h8500/$(DEPDIR) libc/machine/hppa/$(DEPDIR) libc/machine/i386/$(DEPDIR) libc/machine/i960/$(DEPDIR) libc/machine/iq2000/$(DEPDIR) libc/machine/lm32/$(DEPDIR) libc/machine/m32c/$(DEPDIR) libc/machine/m32r/$(DEPDIR) libc/machine/m68hc11/$(DEPDIR) libc/machine/m68k/$(DEPDIR) libc/machine/m88k/$(DEPDIR) libc/machine/mep/$(DEPDIR) libc/machine/microblaze/$(DEPDIR) libc/machine/mips/$(DEPDIR) libc/machine/mn10200/$(DEPDIR) libc/machine/mn10300/$(DEPDIR) libc/machine/moxie/$(DEPDIR) libc/machine/msp430/$(DEPDIR) libc/machine/mt/$(DEPDIR) libc/machine/nds32/$(DEPDIR) libc/machine/necv70/$(DEPDIR) libc/machine/nvptx/$(DEPDIR) libc/machine/or1k/$(DEPDIR) libc/machine/powerpc/$(DEPDIR) libc/machine/riscv/$(DEPDIR) libc/machine/rl78/$(DEPDIR) libc/machine/rx/$(DEPDIR) libc/machine/sh/$(DEPDIR) libc/machine/sparc/$(DEPDIR) libc/machine/spu/$(DEPDIR) libc/machine/tic4x/$(DEPDIR) libc/machine/tic6x/$(DEPDIR) libc/machine/tic80/$(DEPDIR) libc/machine/v850/$(DEPDIR) libc/machine/visium/$(DEPDIR) libc/machine/w65/$(DEPDIR) libc/machine/x86_64/$(DEPDIR) libc/machine/xc16x/$(DEPDIR) libc/machine/xstormy16/$(DEPDIR) libc/machine/xtensa/$(DEPDIR) libc/machine/z8k/$(DEPDIR) libc/misc/$(DEPDIR) libc/posix/$(DEPDIR) libc/reent/$(DEPDIR) libc/search/$(DEPDIR) libc/signal/$(DEPDIR) libc/ssp/$(DEPDIR) libc/stdio/$(DEPDIR) libc/stdio64/$(DEPDIR) libc/stdlib/$(DEPDIR) libc/string/$(DEPDIR) libc/sys/a29khif/$(DEPDIR) libc/sys/amdgcn/$(DEPDIR) libc/sys/arm/$(DEPDIR) libc/sys/d10v/$(DEPDIR) libc/sys/epiphany/$(DEPDIR) libc/sys/h8300hms/$(DEPDIR) libc/sys/h8500hms/$(DEPDIR) libc/sys/m88kbug/$(DEPDIR) libc/sys/mmixware/$(DEPDIR) libc/sys/netware/$(DEPDIR) libc/sys/or1k/$(DEPDIR) libc/sys/rdos/$(DEPDIR) libc/sys/rtems/$(DEPDIR) libc/sys/sh/$(DEPDIR) libc/sys/sysmec/$(DEPDIR) libc/sys/sysnec810/$(DEPDIR) libc/sys/sysnecv850/$(DEPDIR) libc/sys/sysvi386/$(DEPDIR) libc/sys/sysvnecv70/$(DEPDIR) libc/sys/tirtos/$(DEPDIR) libc/sys/w65/$(DEPDIR) libc/sys/xtensa/$(DEPDIR) libc/sys/z8ksim/$(DEPDIR) libc/syscalls/$(DEPDIR) libc/time/$(DEPDIR) libc/unix/$(DEPDIR) libc/xdr/$(DEPDIR) libm/common/$(DEPDIR) libm/complex/$(DEPDIR) libm/fenv/$(DEPDIR) libm/ld/$(DEPDIR) libm/ld128/$(DEPDIR) libm/ld80/$(DEPDIR) libm/machine/aarch64/$(DEPDIR) libm/machine/amdgcn/$(DEPDIR) libm/machine/arm/$(DEPDIR) libm/machine/i386/$(DEPDIR) libm/machine/mips/$(DEPDIR) libm/machine/nds32/$(DEPDIR) libm/machine/powerpc/$(DEPDIR) libm/machine/pru/$(DEPDIR) libm/machine/riscv/$(DEPDIR) libm/machine/sparc/$(DEPDIR) libm/machine/spu/$(DEPDIR) libm/machine/x86_64/$(DEPDIR) libm/machine/xtensa/$(DEPDIR) libm/math/$(DEPDIR) libm/mathfp/$(DEPDIR) libm/test/$(DEPDIR)
+	-rm -rf libc/argz/$(DEPDIR) libc/ctype/$(DEPDIR) libc/errno/$(DEPDIR) libc/iconv/ccs/$(DEPDIR) libc/iconv/ces/$(DEPDIR) libc/iconv/lib/$(DEPDIR) libc/locale/$(DEPDIR) libc/machine/aarch64/$(DEPDIR) libc/machine/amdgcn/$(DEPDIR) libc/machine/arc/$(DEPDIR) libc/machine/arc64/$(DEPDIR) libc/machine/arm/$(DEPDIR) libc/machine/bfin/$(DEPDIR) libc/machine/cr16/$(DEPDIR) libc/machine/cris/$(DEPDIR) libc/machine/crx/$(DEPDIR) libc/machine/csky/$(DEPDIR) libc/machine/d10v/$(DEPDIR) libc/machine/d30v/$(DEPDIR) libc/machine/epiphany/$(DEPDIR) libc/machine/fr30/$(DEPDIR) libc/machine/frv/$(DEPDIR) libc/machine/ft32/$(DEPDIR) libc/machine/h8300/$(DEPDIR) libc/machine/h8500/$(DEPDIR) libc/machine/hppa/$(DEPDIR) libc/machine/i386/$(DEPDIR) libc/machine/i960/$(DEPDIR) libc/machine/iq2000/$(DEPDIR) libc/machine/lm32/$(DEPDIR) libc/machine/m32c/$(DEPDIR) libc/machine/m32r/$(DEPDIR) libc/machine/m68hc11/$(DEPDIR) libc/machine/m68k/$(DEPDIR) libc/machine/m88k/$(DEPDIR) libc/machine/mep/$(DEPDIR) libc/machine/microblaze/$(DEPDIR) libc/machine/mips/$(DEPDIR) libc/machine/mn10200/$(DEPDIR) libc/machine/mn10300/$(DEPDIR) libc/machine/moxie/$(DEPDIR) libc/machine/msp430/$(DEPDIR) libc/machine/mt/$(DEPDIR) libc/machine/nds32/$(DEPDIR) libc/machine/necv70/$(DEPDIR) libc/machine/nvptx/$(DEPDIR) libc/machine/or1k/$(DEPDIR) libc/machine/powerpc/$(DEPDIR) libc/machine/riscv/$(DEPDIR) libc/machine/rl78/$(DEPDIR) libc/machine/rx/$(DEPDIR) libc/machine/sh/$(DEPDIR) libc/machine/sparc/$(DEPDIR) libc/machine/spu/$(DEPDIR) libc/machine/tic4x/$(DEPDIR) libc/machine/tic6x/$(DEPDIR) libc/machine/tic80/$(DEPDIR) libc/machine/v850/$(DEPDIR) libc/machine/visium/$(DEPDIR) libc/machine/w65/$(DEPDIR) libc/machine/x86_64/$(DEPDIR) libc/machine/xc16x/$(DEPDIR) libc/machine/xstormy16/$(DEPDIR) libc/machine/xtensa/$(DEPDIR) libc/machine/z8k/$(DEPDIR) libc/misc/$(DEPDIR) libc/posix/$(DEPDIR) libc/reent/$(DEPDIR) libc/search/$(DEPDIR) libc/signal/$(DEPDIR) libc/ssp/$(DEPDIR) libc/stdio/$(DEPDIR) libc/stdio64/$(DEPDIR) libc/stdlib/$(DEPDIR) libc/string/$(DEPDIR) libc/sys/a29khif/$(DEPDIR) libc/sys/amdgcn/$(DEPDIR) libc/sys/arm/$(DEPDIR) libc/sys/d10v/$(DEPDIR) libc/sys/epiphany/$(DEPDIR) libc/sys/h8300hms/$(DEPDIR) libc/sys/h8500hms/$(DEPDIR) libc/sys/m88kbug/$(DEPDIR) libc/sys/mmixware/$(DEPDIR) libc/sys/netware/$(DEPDIR) libc/sys/or1k/$(DEPDIR) libc/sys/psp/$(DEPDIR) libc/sys/rdos/$(DEPDIR) libc/sys/rtems/$(DEPDIR) libc/sys/sh/$(DEPDIR) libc/sys/sysmec/$(DEPDIR) libc/sys/sysnec810/$(DEPDIR) libc/sys/sysnecv850/$(DEPDIR) libc/sys/sysvi386/$(DEPDIR) libc/sys/sysvnecv70/$(DEPDIR) libc/sys/tirtos/$(DEPDIR) libc/sys/w65/$(DEPDIR) libc/sys/z8ksim/$(DEPDIR) libc/syscalls/$(DEPDIR) libc/time/$(DEPDIR) libc/unix/$(DEPDIR) libc/xdr/$(DEPDIR) libm/common/$(DEPDIR) libm/complex/$(DEPDIR) libm/fenv/$(DEPDIR) libm/ld/$(DEPDIR) libm/ld128/$(DEPDIR) libm/ld80/$(DEPDIR) libm/machine/aarch64/$(DEPDIR) libm/machine/amdgcn/$(DEPDIR) libm/machine/arm/$(DEPDIR) libm/machine/i386/$(DEPDIR) libm/machine/mips/$(DEPDIR) libm/machine/nds32/$(DEPDIR) libm/machine/powerpc/$(DEPDIR) libm/machine/pru/$(DEPDIR) libm/machine/riscv/$(DEPDIR) libm/machine/sparc/$(DEPDIR) libm/machine/spu/$(DEPDIR) libm/machine/x86_64/$(DEPDIR) libm/machine/xtensa/$(DEPDIR) libm/math/$(DEPDIR) libm/mathfp/$(DEPDIR) libm/test/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-DEJAGNU distclean-compile \
 	distclean-generic distclean-hdr distclean-local distclean-tags
@@ -50865,7 +50826,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf libc/argz/$(DEPDIR) libc/ctype/$(DEPDIR) libc/errno/$(DEPDIR) libc/iconv/ccs/$(DEPDIR) libc/iconv/ces/$(DEPDIR) libc/iconv/lib/$(DEPDIR) libc/locale/$(DEPDIR) libc/machine/aarch64/$(DEPDIR) libc/machine/amdgcn/$(DEPDIR) libc/machine/arc/$(DEPDIR) libc/machine/arc64/$(DEPDIR) libc/machine/arm/$(DEPDIR) libc/machine/bfin/$(DEPDIR) libc/machine/cr16/$(DEPDIR) libc/machine/cris/$(DEPDIR) libc/machine/crx/$(DEPDIR) libc/machine/csky/$(DEPDIR) libc/machine/d10v/$(DEPDIR) libc/machine/d30v/$(DEPDIR) libc/machine/epiphany/$(DEPDIR) libc/machine/fr30/$(DEPDIR) libc/machine/frv/$(DEPDIR) libc/machine/ft32/$(DEPDIR) libc/machine/h8300/$(DEPDIR) libc/machine/h8500/$(DEPDIR) libc/machine/hppa/$(DEPDIR) libc/machine/i386/$(DEPDIR) libc/machine/i960/$(DEPDIR) libc/machine/iq2000/$(DEPDIR) libc/machine/lm32/$(DEPDIR) libc/machine/m32c/$(DEPDIR) libc/machine/m32r/$(DEPDIR) libc/machine/m68hc11/$(DEPDIR) libc/machine/m68k/$(DEPDIR) libc/machine/m88k/$(DEPDIR) libc/machine/mep/$(DEPDIR) libc/machine/microblaze/$(DEPDIR) libc/machine/mips/$(DEPDIR) libc/machine/mn10200/$(DEPDIR) libc/machine/mn10300/$(DEPDIR) libc/machine/moxie/$(DEPDIR) libc/machine/msp430/$(DEPDIR) libc/machine/mt/$(DEPDIR) libc/machine/nds32/$(DEPDIR) libc/machine/necv70/$(DEPDIR) libc/machine/nvptx/$(DEPDIR) libc/machine/or1k/$(DEPDIR) libc/machine/powerpc/$(DEPDIR) libc/machine/riscv/$(DEPDIR) libc/machine/rl78/$(DEPDIR) libc/machine/rx/$(DEPDIR) libc/machine/sh/$(DEPDIR) libc/machine/sparc/$(DEPDIR) libc/machine/spu/$(DEPDIR) libc/machine/tic4x/$(DEPDIR) libc/machine/tic6x/$(DEPDIR) libc/machine/tic80/$(DEPDIR) libc/machine/v850/$(DEPDIR) libc/machine/visium/$(DEPDIR) libc/machine/w65/$(DEPDIR) libc/machine/x86_64/$(DEPDIR) libc/machine/xc16x/$(DEPDIR) libc/machine/xstormy16/$(DEPDIR) libc/machine/xtensa/$(DEPDIR) libc/machine/z8k/$(DEPDIR) libc/misc/$(DEPDIR) libc/posix/$(DEPDIR) libc/reent/$(DEPDIR) libc/search/$(DEPDIR) libc/signal/$(DEPDIR) libc/ssp/$(DEPDIR) libc/stdio/$(DEPDIR) libc/stdio64/$(DEPDIR) libc/stdlib/$(DEPDIR) libc/string/$(DEPDIR) libc/sys/a29khif/$(DEPDIR) libc/sys/amdgcn/$(DEPDIR) libc/sys/arm/$(DEPDIR) libc/sys/d10v/$(DEPDIR) libc/sys/epiphany/$(DEPDIR) libc/sys/h8300hms/$(DEPDIR) libc/sys/h8500hms/$(DEPDIR) libc/sys/m88kbug/$(DEPDIR) libc/sys/mmixware/$(DEPDIR) libc/sys/netware/$(DEPDIR) libc/sys/or1k/$(DEPDIR) libc/sys/rdos/$(DEPDIR) libc/sys/rtems/$(DEPDIR) libc/sys/sh/$(DEPDIR) libc/sys/sysmec/$(DEPDIR) libc/sys/sysnec810/$(DEPDIR) libc/sys/sysnecv850/$(DEPDIR) libc/sys/sysvi386/$(DEPDIR) libc/sys/sysvnecv70/$(DEPDIR) libc/sys/tirtos/$(DEPDIR) libc/sys/w65/$(DEPDIR) libc/sys/xtensa/$(DEPDIR) libc/sys/z8ksim/$(DEPDIR) libc/syscalls/$(DEPDIR) libc/time/$(DEPDIR) libc/unix/$(DEPDIR) libc/xdr/$(DEPDIR) libm/common/$(DEPDIR) libm/complex/$(DEPDIR) libm/fenv/$(DEPDIR) libm/ld/$(DEPDIR) libm/ld128/$(DEPDIR) libm/ld80/$(DEPDIR) libm/machine/aarch64/$(DEPDIR) libm/machine/amdgcn/$(DEPDIR) libm/machine/arm/$(DEPDIR) libm/machine/i386/$(DEPDIR) libm/machine/mips/$(DEPDIR) libm/machine/nds32/$(DEPDIR) libm/machine/powerpc/$(DEPDIR) libm/machine/pru/$(DEPDIR) libm/machine/riscv/$(DEPDIR) libm/machine/sparc/$(DEPDIR) libm/machine/spu/$(DEPDIR) libm/machine/x86_64/$(DEPDIR) libm/machine/xtensa/$(DEPDIR) libm/math/$(DEPDIR) libm/mathfp/$(DEPDIR) libm/test/$(DEPDIR)
+	-rm -rf libc/argz/$(DEPDIR) libc/ctype/$(DEPDIR) libc/errno/$(DEPDIR) libc/iconv/ccs/$(DEPDIR) libc/iconv/ces/$(DEPDIR) libc/iconv/lib/$(DEPDIR) libc/locale/$(DEPDIR) libc/machine/aarch64/$(DEPDIR) libc/machine/amdgcn/$(DEPDIR) libc/machine/arc/$(DEPDIR) libc/machine/arc64/$(DEPDIR) libc/machine/arm/$(DEPDIR) libc/machine/bfin/$(DEPDIR) libc/machine/cr16/$(DEPDIR) libc/machine/cris/$(DEPDIR) libc/machine/crx/$(DEPDIR) libc/machine/csky/$(DEPDIR) libc/machine/d10v/$(DEPDIR) libc/machine/d30v/$(DEPDIR) libc/machine/epiphany/$(DEPDIR) libc/machine/fr30/$(DEPDIR) libc/machine/frv/$(DEPDIR) libc/machine/ft32/$(DEPDIR) libc/machine/h8300/$(DEPDIR) libc/machine/h8500/$(DEPDIR) libc/machine/hppa/$(DEPDIR) libc/machine/i386/$(DEPDIR) libc/machine/i960/$(DEPDIR) libc/machine/iq2000/$(DEPDIR) libc/machine/lm32/$(DEPDIR) libc/machine/m32c/$(DEPDIR) libc/machine/m32r/$(DEPDIR) libc/machine/m68hc11/$(DEPDIR) libc/machine/m68k/$(DEPDIR) libc/machine/m88k/$(DEPDIR) libc/machine/mep/$(DEPDIR) libc/machine/microblaze/$(DEPDIR) libc/machine/mips/$(DEPDIR) libc/machine/mn10200/$(DEPDIR) libc/machine/mn10300/$(DEPDIR) libc/machine/moxie/$(DEPDIR) libc/machine/msp430/$(DEPDIR) libc/machine/mt/$(DEPDIR) libc/machine/nds32/$(DEPDIR) libc/machine/necv70/$(DEPDIR) libc/machine/nvptx/$(DEPDIR) libc/machine/or1k/$(DEPDIR) libc/machine/powerpc/$(DEPDIR) libc/machine/riscv/$(DEPDIR) libc/machine/rl78/$(DEPDIR) libc/machine/rx/$(DEPDIR) libc/machine/sh/$(DEPDIR) libc/machine/sparc/$(DEPDIR) libc/machine/spu/$(DEPDIR) libc/machine/tic4x/$(DEPDIR) libc/machine/tic6x/$(DEPDIR) libc/machine/tic80/$(DEPDIR) libc/machine/v850/$(DEPDIR) libc/machine/visium/$(DEPDIR) libc/machine/w65/$(DEPDIR) libc/machine/x86_64/$(DEPDIR) libc/machine/xc16x/$(DEPDIR) libc/machine/xstormy16/$(DEPDIR) libc/machine/xtensa/$(DEPDIR) libc/machine/z8k/$(DEPDIR) libc/misc/$(DEPDIR) libc/posix/$(DEPDIR) libc/reent/$(DEPDIR) libc/search/$(DEPDIR) libc/signal/$(DEPDIR) libc/ssp/$(DEPDIR) libc/stdio/$(DEPDIR) libc/stdio64/$(DEPDIR) libc/stdlib/$(DEPDIR) libc/string/$(DEPDIR) libc/sys/a29khif/$(DEPDIR) libc/sys/amdgcn/$(DEPDIR) libc/sys/arm/$(DEPDIR) libc/sys/d10v/$(DEPDIR) libc/sys/epiphany/$(DEPDIR) libc/sys/h8300hms/$(DEPDIR) libc/sys/h8500hms/$(DEPDIR) libc/sys/m88kbug/$(DEPDIR) libc/sys/mmixware/$(DEPDIR) libc/sys/netware/$(DEPDIR) libc/sys/or1k/$(DEPDIR) libc/sys/psp/$(DEPDIR) libc/sys/rdos/$(DEPDIR) libc/sys/rtems/$(DEPDIR) libc/sys/sh/$(DEPDIR) libc/sys/sysmec/$(DEPDIR) libc/sys/sysnec810/$(DEPDIR) libc/sys/sysnecv850/$(DEPDIR) libc/sys/sysvi386/$(DEPDIR) libc/sys/sysvnecv70/$(DEPDIR) libc/sys/tirtos/$(DEPDIR) libc/sys/w65/$(DEPDIR) libc/sys/z8ksim/$(DEPDIR) libc/syscalls/$(DEPDIR) libc/time/$(DEPDIR) libc/unix/$(DEPDIR) libc/xdr/$(DEPDIR) libm/common/$(DEPDIR) libm/complex/$(DEPDIR) libm/fenv/$(DEPDIR) libm/ld/$(DEPDIR) libm/ld128/$(DEPDIR) libm/ld80/$(DEPDIR) libm/machine/aarch64/$(DEPDIR) libm/machine/amdgcn/$(DEPDIR) libm/machine/arm/$(DEPDIR) libm/machine/i386/$(DEPDIR) libm/machine/mips/$(DEPDIR) libm/machine/nds32/$(DEPDIR) libm/machine/powerpc/$(DEPDIR) libm/machine/pru/$(DEPDIR) libm/machine/riscv/$(DEPDIR) libm/machine/sparc/$(DEPDIR) libm/machine/spu/$(DEPDIR) libm/machine/x86_64/$(DEPDIR) libm/machine/xtensa/$(DEPDIR) libm/math/$(DEPDIR) libm/mathfp/$(DEPDIR) libm/test/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-aminfo \
 	maintainer-clean-generic maintainer-clean-local
@@ -50991,7 +50952,11 @@ stmp-targ-include: config.status
 	  fi
 	$(AM_V_at)s=machine/$(machine_dir)/machine d=machine $(TARG_INCLUDE_CP_DIR)
 	$(AM_V_at)s=machine/$(machine_dir)/sys d=sys $(TARG_INCLUDE_CP_DIR)
-	$(AM_V_at)s=machine/$(machine_dir)/include d= $(TARG_INCLUDE_CP_DIR)
+	$(AM_V_at)for i in $(call rwildcard,$(srcdir)/libc/machine/$(machine_dir)/include/,*.h); do \
+	  f=`echo $$i | sed s:^$(srcdir)/libc/machine/$(machine_dir)/include/::`; \
+	  $(MKDIR_P) targ-include/`dirname $$f`; \
+	  cp $$i targ-include/$$f; \
+	done
 	$(AM_V_at)s=sys/$(sys_dir)/include d= $(TARG_INCLUDE_CP_DIR)
 	$(AM_V_at)for i in $(call rwildcard,$(srcdir)/libc/sys/$(sys_dir)/include/,*.h); do \
 	  f=`echo $$i | sed s:^$(srcdir)/libc/sys/$(sys_dir)/include/::`; \
@@ -51061,10 +51026,10 @@ install-data-local: install-toollibLIBRARIES install-multi $(INSTALL_DATA_LOCAL)
 	     $(INSTALL_DATA) $$i $(DESTDIR)$(tooldir)/include/sys/`basename $$i`; \
 	    else true; fi ; \
 	  done ; \
-	  for i in $(srcdir)/libc/machine/$(machine_dir)/include/*.h; do \
-	    if [ -f $$i ]; then \
-	     $(INSTALL_DATA) $$i $(DESTDIR)$(tooldir)/include/`basename $$i`; \
-	    else true; fi ; \
+	  for i in $(call rwildcard,$(srcdir)/libc/machine/$(machine_dir)/include/,*.h); do \
+	    f=`echo $$i | sed s:^$(srcdir)/libc/machine/$(machine_dir)/::`; \
+	    $(MKDIR_P) $(DESTDIR)$(tooldir)/`dirname $$f`; \
+	    $(INSTALL_DATA) $$i $(DESTDIR)$(tooldir)/`dirname $$f`; \
 	  done ; \
 	  for i in $(srcdir)/libc/sys/$(sys_dir)/sys/*.h; do \
 	    if [ -f $$i ]; then \
