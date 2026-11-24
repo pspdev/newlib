@@ -84,12 +84,22 @@ __register_exitproc (int type,
     }
   if (p->_ind >= _ATEXIT_SIZE)
     {
-#if !defined (_ATEXIT_DYNAMIC_ALLOC) || !defined (MALLOC_PROVIDED)
+#ifndef _ATEXIT_DYNAMIC_ALLOC
 #ifndef __SINGLE_THREAD__
       __lock_release_recursive(__atexit_recursive_mutex);
 #endif
       return -1;
 #else
+#ifndef MALLOC_PROVIDED
+      /* A weak reference must not force the allocator into small binaries.  */
+      if (!malloc)
+	{
+#ifndef __SINGLE_THREAD__
+	  __lock_release_recursive(__atexit_recursive_mutex);
+#endif
+	  return -1;
+	}
+#endif
       p = (struct _atexit *) malloc (sizeof *p);
       if (p == NULL)
 	{
@@ -122,7 +132,9 @@ __register_exitproc (int type,
 #endif
 	  return -1;
 #else
+#ifndef MALLOC_PROVIDED
 	  if (malloc)
+#endif
 	    args = malloc (sizeof * p->_on_exit_args_ptr);
 
 	  if (args == NULL)

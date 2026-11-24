@@ -147,12 +147,16 @@ __call_exitprocs (int code, void *d)
 	    goto restart;
 	}
 
-#if !defined (_ATEXIT_DYNAMIC_ALLOC) || !defined (MALLOC_PROVIDED)
+#ifndef _ATEXIT_DYNAMIC_ALLOC
       break;
 #else
       /* Move to the next block.  Free empty blocks except the last one,
 	 which is part of _GLOBAL_REENT.  */
-      if (p->_ind == 0 && p->_next)
+      if (p->_ind == 0 && p->_next
+#ifndef MALLOC_PROVIDED
+	  && free
+#endif
+	  )
 	{
 	  /* Remove empty block from the list.  */
 	  *lastp = p->_next;
