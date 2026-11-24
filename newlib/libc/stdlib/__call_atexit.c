@@ -71,7 +71,7 @@ __call_exitprocs (int code, void *d)
   struct _atexit **lastp;
   register struct _on_exit_args * args;
   register int n;
-  int i;
+  __ULong i;
   void (*fn) (void);
 
 
@@ -94,10 +94,11 @@ __call_exitprocs (int code, void *d)
 	{
 	  int ind;
 
-	  i = 1 << n;
+	  i = 1UL << n;
 
 	  /* Skip functions not from this dso.  */
-	  if (d && (!args || args->_dso_handle[n] != d))
+	  if (d && (!args || !(args->_is_cxa & i)
+		    || args->_dso_handle[n] != d))
 	    continue;
 
 	  /* Remove the function now to protect against the
@@ -129,12 +130,16 @@ __call_exitprocs (int code, void *d)
 	    goto restart;
 	}
 
-#if !defined (_ATEXIT_DYNAMIC_ALLOC) || !defined (MALLOC_PROVIDED)
+#ifndef _ATEXIT_DYNAMIC_ALLOC
       break;
 #else
       /* Move to the next block.  Free empty blocks except the last one,
 	 which is part of _GLOBAL_REENT.  */
-      if (p->_ind == 0 && p->_next)
+      if (p->_ind == 0 && p->_next
+#ifndef MALLOC_PROVIDED
+	  && free
+#endif
+	  )
 	{
 	  /* Remove empty block from the list.  */
 	  *lastp = p->_next;
