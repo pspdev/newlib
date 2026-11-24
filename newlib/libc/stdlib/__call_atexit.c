@@ -71,7 +71,7 @@ __call_exitprocs (int code, void *d)
   struct _atexit **lastp;
   register struct _on_exit_args * args;
   register int n;
-  int i;
+  __ULong i;
   void (*fn) (void);
 
 
@@ -96,10 +96,11 @@ __call_exitprocs (int code, void *d)
 	  __ULong fntypes, is_cxa;
 	  void *fnarg;
 
-	  i = 1 << n;
+	  i = 1UL << n;
 
 	  /* Skip functions not from this dso.  */
-	  if (d && (!args || args->_dso_handle[n] != d))
+	  if (d && (!args || !(args->_is_cxa & i)
+		    || args->_dso_handle[n] != d))
 	    continue;
 
 	  /* Remove the function now to protect against the
@@ -120,7 +121,7 @@ __call_exitprocs (int code, void *d)
 	    {
 	      fntypes = args->_fntypes;
 	      is_cxa = args->_is_cxa;
-	      fnarg = args->_fnargs[n];
+	      fnarg = (fntypes & i) ? args->_fnargs[n] : NULL;
 	    }
 
 #ifndef __SINGLE_THREAD__

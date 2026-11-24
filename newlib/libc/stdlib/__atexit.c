@@ -141,10 +141,28 @@ __register_exitproc (int type,
       args = &p->_on_exit_args;
 #endif
       args->_fnargs[p->_ind] = arg;
-      args->_fntypes |= (1 << p->_ind);
+      args->_fntypes |= (1UL << p->_ind);
       args->_dso_handle[p->_ind] = d;
       if (type == __et_cxa)
-	args->_is_cxa |= (1 << p->_ind);
+	args->_is_cxa |= (1UL << p->_ind);
+      else
+	args->_is_cxa &= ~(1UL << p->_ind);
+    }
+  else
+    {
+#ifdef _REENT_SMALL
+      args = p->_on_exit_args_ptr;
+#else
+      args = &p->_on_exit_args;
+#endif
+      if (args)
+	{
+	  /* A handler can register another callback in a vacated slot.  */
+	  args->_fntypes &= ~(1UL << p->_ind);
+	  args->_is_cxa &= ~(1UL << p->_ind);
+	  args->_fnargs[p->_ind] = NULL;
+	  args->_dso_handle[p->_ind] = NULL;
+	}
     }
   p->_fns[p->_ind++] = fn;
 #ifndef __SINGLE_THREAD__
